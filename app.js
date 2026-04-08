@@ -6,6 +6,7 @@ app.set('view engine', 'ejs');
 
 app.use(express.static(__dirname + '/public'));
 app.use(express.urlencoded({extended: true}));
+app.use(express.json());
 
 app.get('/test', (req, res) => {
     res.render('pages/test');
@@ -22,6 +23,28 @@ app.get('/leaderboard', (req, res) => {
 app.get('/login', (req, res) => {
     res.render('pages/login');
 });
+
+app.post('/login', (req, res) => {
+    const { email, password } = req.body;
+
+    // Check admin table for admin password
+    connection.query('SELECT * FROM admin WHERE email = ? AND password = ?', [email, password], (err, adminResults) => {
+        if (err) return res.status(500).json({ success: false, message: 'Database error' });
+        if (adminResults.length > 0) {
+            return res.json({ success: true, role: 'admin' });
+        }
+        // Check player table for account
+        connection.query('SELECT * FROM player WHERE email = ? AND password = ?', [email, password], (err, playerResults) => {
+            if (err) return res.status(500).json({ success: false, message: 'Database error' });
+            if (playerResults.length > 0) {
+                return res.json({ success: true, role: 'player' });
+            }
+            // Not found in either table
+            return res.json({ success: false, message: 'Invalid email or password' });
+        });
+    });
+});
+
 app.get('/quiz', (req, res) => {
     res.render('pages/quiz');
 });
