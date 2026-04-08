@@ -13,6 +13,9 @@ app.get('/test', (req, res) => {
 app.get('/', (req, res) => {
     res.render('pages/home');
 });
+app.get('/freeplay', (req, res) => {
+    res.render('pages/freeplay');
+});
 app.get('/leaderboard', (req, res) => {
     res.render('pages/leaderboard');
 });
