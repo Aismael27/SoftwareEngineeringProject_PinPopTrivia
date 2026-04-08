@@ -12,7 +12,8 @@ app.get('/', (req, res) => {
     try {
         let sql = 
         `SELECT location_id, city_name
-        FROM location;`;    
+        FROM location
+        ORDER BY city_name;`;    
         connection.query(sql, (err, cities) => {
         if (err) throw err;
         res.render('pages/home', {cities: cities});
