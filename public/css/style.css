@@ -1,10 +1,30 @@
-.header{
+.header {
     background-color: #3E0C15;
-    text-align: center;
     padding: 10px;
     color: #fcf8eb;
     font-family: 'Limelight', sans-serif;
     margin-bottom: 0%;
+    display: flex;              /* add this */
+    align-items: center;        /* vertically center both */
+    justify-content: center;    /* keep title centered */
+    position: relative;         /* needed for button positioning */
+}
+
+.header h1 {
+    text-align: center;
+    flex: 1;                    /* takes up all space, truly centering the title */
+}
+
+.login-button {
+    position: absolute;         /* pull it out of the flow */
+    right: 20px;                /* stick to the right */
+    background-color: white;
+    color: #0A0905;
+    font-family: 'Special Elite', sans-serif;
+    font-size: 16px;
+    border-radius: 5px;
+    padding: 8px 14px;
+    text-decoration: none;
 }
 * {
     margin: 0;
@@ -94,7 +114,7 @@ button {
 
 .form-container {
     max-width: 400px;
-    margin: 0 auto;
+    margin: 50px auto;
     padding: 20px;
     background-color: #D1b585;
     border-radius: 5px;
