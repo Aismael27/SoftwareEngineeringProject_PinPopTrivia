@@ -22,8 +22,8 @@ app.get('/login', (req, res) => {
 app.get('/quiz', (req, res) => {
     res.render('pages/quiz');
 });
-app.get('/sanAntonio', (req, res) => {
-    res.render('pages/sanAntonio');
+app.get('/TEST_CITY', (req, res) => {
+    res.render('pages/TEST_CITY');
 });
 app.get('/suggest', (req, res) => {
     res.render('pages/suggest');

@@ -10,18 +10,7 @@
 </head>
 <body>
 
-  <header class = "header">
-    <h1>PinPop Trivia</h1> 
-  </header>
-  <div class = "navbar"> 
-    <a class = "navButton" href = "home.ejs">Home</a>
-    <a class = "navButton" href = "leaderboard.ejs">Leaderboard</a>
-    <a class = "navButton" href = "weeklyQuiz.ejs">Weekly Quiz</a>
-    <a class = "navButton" href = "quiz.ejs">Quizzes</a>
-    <a class = "navButton" href = "freeplay.ejs">Freeeplay</a>
-    <a class = "navButton" href ="suggest.ejs">Suggest</a>
-    <a class = "navButton" href ="login.ejs">Login</a>
-</div>
+  <%- include('../partials/header.ejs') %>
 
   <div class="form-container">
     <h2>Login</h2>
