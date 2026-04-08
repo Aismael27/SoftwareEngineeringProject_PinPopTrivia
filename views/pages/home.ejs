@@ -10,15 +10,7 @@
         <header class="header">
             <h1> PinPop Trivia! </h1>
         </header>
-        <div class = "navbar"> 
-            <a class = "navButton" href = "home.ejs">Home</a>
-            <a class = "navButton" href = "leaderboard.ejs">Leaderboard</a>
-            <a class = "navButton" href = "weeklyQuiz.ejs">Weekly Quiz</a>
-            <a class = "navButton" href = "quiz.ejs">Quizzes</a>
-            <a class = "navButton" href = "freeplay.ejs">Freeeplay</a>
-            <a class = "navButton" href ="suggest.ejs">Suggest</a>
-            <a class = "navButton" href ="login.ejs">Login</a>
-        </div>
+        <%- include('../partials/nav.ejs') %>
         <div class="twoColumns">
             <div class = "smallCol"> <p class = "bdyHead"> City Index</p><ul class = "bdyTxt"> <a href="sanAntonio.ejs">San Antonio</a></ul></div>
             <div class = "largeCol" id = "colDisplay"> <img src="/css/images/map.jpg"></div>
