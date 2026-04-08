@@ -1,3 +1,4 @@
+DROP DATABASE pinpop;
 CREATE DATABASE pinpop;
 USE pinpop;
 
@@ -34,6 +35,8 @@ CREATE TABLE IF NOT EXISTS location (
     city_name		VARCHAR(50) NOT NULL,
     country			VARCHAR(50) NOT NULL,
     region			ENUM('Africa', 'Oceania', 'Asia', 'Europe', 'North America', 'South America','Middle East') NOT NULL,
+    population		VARCHAR(50),
+    information		VARCHAR(5000),
     PRIMARY KEY (location_id)
 );
 
@@ -88,7 +91,7 @@ CREATE TABLE IF NOT EXISTS leaderboard (
     FOREIGN KEY (player_id) REFERENCES player(player_id) ON DELETE CASCADE
 );
 
-CREATE TABLE IF NOT EXISTS Badges (
+CREATE TABLE IF NOT EXISTS badges (
     badge_id	INT NOT NULL AUTO_INCREMENT,
     player_id	INT NOT NULL,
     badge_type  ENUM('top3_weekly', 'freeplay_board') NOT NULL,
@@ -128,27 +131,22 @@ INSERT INTO admin(full_name, role, email, password) VALUES
     ('Natalie Hudson', 'Full stack developer', 'nhudson@trinity.edu', 'pwd'),
     ('Al Stubblefield','Front end developer','astubble@trinity.edu', 'pwd');
 
-INSERT INTO location(city_name, country, region) VALUES
-	('New York', 'USA', 'North America'),
-    ('Amsterdam', 'Netherlands', 'Europe'), --
-    ('Wellington', 'New Zealand', 'Oceania'), --
-    ('London', 'United Kingdom', 'Europe'), --
-    ('Tokyo', 'Japan', 'Asia'), --
-    ('Tehran', 'Iran', 'Middle East'), --
-    ('Buenos Aires', 'Argentina', 'South America'), --
-    ('Rio de Janeiro', 'Brazil', 'South America'), --
-    ('Mexico City', 'Mexico', 'North America'),
-    ('Dubai','UAE','Middle East'),
-    ('Paris','France','Europe'),
-    ('Seoul','South Korea', 'Asia'),
-    ('Sydney', 'Australia','Oceania'),
-    ('Seattle','USA','North America'),
-    ('Monaco', 'Monaco', 'Europe'),
-    ('Kigali', 'Rwanda', 'Africa'),
-    ('Johannesburg', 'South Africa', 'Africa'), -- Hotel Rwanda + Avengers Age of Ultron
-    ('Cape Town', 'South Africa', 'Africa'), -- Mad Max
-    ('Los Angeles', 'USA', 'North America'),
-    ('Chicago', 'USA', 'North America'); -- The Bear
+INSERT INTO location(city_name, country, region, population, information) VALUES
+	('New York', 'USA', 'North America', '8.58 million', 'New York City, often called New York or NYC, is the largest and most populous city in the United States. It is also the most international city in the country, serving as a global hub for finance, culture, and immigration'), --
+    ('Amsterdam', 'Netherlands', 'Europe', '0.9 million', 'Capital of the Netherlands, is renowned for its picturesque canals, rich history, and vibrant cultural scene, making it a major European hub for tourism and commerce.'), --
+    ('Wellington', 'New Zealand', 'Oceania','0.42 million', 'Capital of New Zealand. It is renowned for its picturesque harbor, Wellington Harbour, which is often regarded as one of the finest in the world. The city is characterized by its hilly terrain, with Mount Victoria providing stunning views of the surrounding area.'), --
+    ('London', 'United Kingdom', 'Europe', '9.0 million', 'Capital of the United Kingdom and England, London is a global city renowned for its history, finance, and culture, home to landmarks like the Tower of London and Buckingham Palace.'), --
+    ('Tokyo', 'Japan', 'Asia', '13.96 million', 'Capital of Japan and the worlds most populous metropolitan area, it is a vibrant blend of historical heritage, modern architecture, and cultural dynamism.'), --
+    ('Tehran', 'Iran', 'Middle East', '9.5 million', 'Capital and largest city of Iran, a bustling metropolis at the southern foothills of the Alborz Mountains with a rich history, diverse culture, and significant economic and political importance.'), --
+    ('Rio de Janeiro', 'Brazil', 'South America', '6.75 million','Brazils second-largest city, Rio de Janeiro is famous for its Carnival festival, Copacabana beach, and the iconic Christ the Redeemer statue overlooking the city from Corcovado mountain.'), --
+    ('Mexico City', 'Mexico', 'North America', '9.21 million', 'Officially Ciudad de México (CDMX), is the capital of Mexico and the most populous city in North America, with a population of over 9.2 million in its core and more than 21.8 million in its metropolitan area.'), --
+    ('Paris','France','Europe', '2.16 million', 'Capital of France and a historic, cultural, and artistic hub known as the "City of Light," celebrated for its iconic landmarks, vibrant neighborhoods, and global influence.'), --
+    ('Seoul','South Korea', 'Asia', '9.73 million', 'Capital of South Korea, is a vibrant metropolis that seamlessly blends rich history with modern innovation, making it a significant cultural, economic, and political hub in East Asia.'), --
+    ('Monaco', 'Monaco', 'Europe', '40 thousand', 'City-state on the French Rivera known for its wealth, luxury tourism, and dense population.'), --
+    ('Johannesburg', 'South Africa', 'Africa', '5.78 million', 'Largest city in South Africa and economic capital, Johannesburg grew from a gold-rush settlement into a modern metropolis, and is home to the Apartheid Museum.'), -- 
+    ('Cape Town', 'South Africa', 'Africa', '4.62 million', 'The legislative capital of South Africa, but also known as the "Mother City". It is known for its vibrancy, stunning landscapes, and cultural diversity'), -- 
+    ('Los Angeles', 'USA', 'North America', '3.9 million', 'The entertainment capital of the world, Los Angeles is home to Hollywood, a diverse population, and year-round sunshine'), --
+    ('Chicago', 'USA', 'North America', '2.7 million', 'Known as "The Windy City" it is the third most populous city in the US and it is located along the shores of Lake Michigan. Known for being the home of The Bean, deep-dish pizza, and blues music.'); --
     
 INSERT INTO media(title, direct_author, media_type) VALUES 
     ('Persepolis', 'Marjane Satrapi', 'Book'), -- Tehran
@@ -162,9 +160,19 @@ INSERT INTO media(title, direct_author, media_type) VALUES
     ('Lord of the Rings', 'Peter Jackson', 'Movie'), -- Wellington
     ('Bridgerton', 'Julia Quinn', 'TV Show'), -- London
     ('Fleabag', 'Phoebe Waller-Bridge', 'TV Show'), -- London
-    ('Rio', 'Carlos Saldanha', 'Movie'),
+    ('Rio', 'Carlos Saldanha', 'Movie'), -- Rio
     ('Twilight - Breaking Dawn Part 1', 'Bill Condon', 'Movie'), -- Rio de Janeiro
+    ('Cars 2', 'John Lasseter', 'Movie'), -- Monaco
+    ('La La Land', 'Damien Chazelle', 'Movie'), -- LA
+    ('I Love LA','Lorene Scafaria', 'TV Show'), -- LA
+    ('Emily in Paris', 'Darren Star', 'TV Show'), -- Paris
+    ('The Bear', 'Christopher Storer', 'TV Show'), -- Chicago
+    ('FRIENDS', 'Gary Halvorson', 'TV Show'), -- NYC
+    ('Hotel Rwanda','Terry George', 'Movie'), -- Johannesburg
+    ('Avengers Age of Ultron', 'Joss Whedon', 'Movie'), -- Johannesburg
+    ('Mad Max: Fury Road', 'George Miller', 'Movie'), -- Cape Town
     ('Roma', 'Alfonso Cuaron', 'Movie'); -- CDMX
+    
     
 
 
