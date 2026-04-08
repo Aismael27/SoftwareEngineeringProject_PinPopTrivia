@@ -7,11 +7,20 @@ app.set('view engine', 'ejs');
 app.use(express.static(__dirname + '/public'));
 app.use(express.urlencoded({extended: true}));
 
-app.get('/test', (req, res) => {
-    res.render('pages/test');
-});
 app.get('/', (req, res) => {
-    res.render('pages/home');
+    try {
+        let sql = 
+        `SELECT location_id, city_name
+        FROM location;`;    
+        connection.query(sql, (err, cities) => {
+        if (err) throw err;
+        res.render('pages/home', {cities: cities});
+        });
+    }
+    catch (err) {
+        console.error(err);
+        res.send("Error loading page");
+    }
 });
 app.get('/freeplay', (req, res) => {
     res.render('pages/freeplay');
@@ -25,8 +34,14 @@ app.get('/login', (req, res) => {
 app.get('/quiz', (req, res) => {
     res.render('pages/quiz');
 });
-app.get('/sanAntonio', (req, res) => {
-    res.render('pages/sanAntonio');
+app.get('/city/:cityid', (req, res) => {
+    const cityid = req.params.cityid;
+
+    let sql = 'SELECT * FROM location WHERE location_id = ?';
+    connection.query(sql, [cityid], (err, city) => {
+        if (err) throw err;
+        res.render('pages/cityPage', {city: city[0]});
+    });
 });
 app.get('/suggest', (req, res) => {
     res.render('pages/suggest');
