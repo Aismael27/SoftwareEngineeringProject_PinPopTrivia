@@ -1,14 +1,76 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>Profile</title>
-        <link rel="stylesheet" type="text/css" href="style.css"/>
+        <title>Admin Dashboard</title>
+        <link rel="stylesheet" type="text/css" href="/css/style.css"/>
         <link href="https://fonts.googleapis.com/css2?family=Special+Elite&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Limelight&family=Special+Elite&display=swap" rel="stylesheet">
     </head>
     <body>
         <%- include('../partials/header.ejs') %>
-        <div id = "colDisplay"> <img src = "/css/images/catError.webp"></div>
-        <p class = "bdyHead"> Oh no! This page isn't available yet.</p>
+        <div class="contentBox">
+            <h1 class="bdyHead">Admin Dashboard</h1>
+            <div style="display:flex; gap:10px; flex-wrap:wrap; margin-top:10px;">
+                <button class="adminButton" onclick="location.href='/admin/quizManagement'">Quiz Management</button>
+                <button class="adminButton" onclick="location.href='/admin/userManagement'">User Management</button>
+                <button class="adminButton" onclick="location.href='/admin/contentManagement'">Content Management</button>
+            </div> 
+        </div>
+
+        <div class="middleSection">
+            <h2 class="bdyHead">Contact Submissions</h2>
+            <% if (submissions.length === 0) { %>
+                <p class="bdyTxt">No submissions found.</p>
+            <% } else { %>
+            <table class="adminTable">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Player</th>
+                        <th>Type</th>
+                        <th>Date</th>
+                        <th>Message</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% submissions.forEach(sub => { %>
+                    <tr>
+                        <td><%= sub.submission_id %></td>
+                        <td><%= sub.username || 'Guest' %></td>
+                        <td><%= sub.submission_type %></td>
+                        <td><%= sub.submitted_date.toISOString().split('T')[0] %></td>
+                        <td><%= sub.message || '-' %></td>
+                        <td><%= sub.status %></td>
+                        <td>
+                            <% if (sub.status === 'pending') { %>
+                                <button class="adminButton" onclick="updateStatus(this, 'resolved')" data-id="<%=sub.submission_id%>">Resolve</button>
+                                <button class="adminButton" onclick="updateStatus(this, 'approved')" data-id="<%=sub.submission_id%>">Approve</button>
+                                <button class="adminButton" onclick="updateStatus(this, 'rejected')" data-id="<%=sub.submission_id%>">Reject</button>
+                            <% } %>
+                        </td>
+                    </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+            <% } %>
+        </div>
+
+        <script>
+            function updateStatus(btn, status) {
+                const id = btn.getAttribute('data-id');
+                fetch('/adminDashboard/updateStatus', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ submission_id: id, status })
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) window.location.reload();
+                    else alert('Failed to update status');
+                });
+            }
+        </script>
     </body>
 </html>

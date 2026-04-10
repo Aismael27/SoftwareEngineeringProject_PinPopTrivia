@@ -8,7 +8,29 @@
     </head>
     <body>
         <%- include('../partials/header.ejs') %>
-        <div id = "colDisplay"> <img src = "/public/css/images/catError.webp"></div>
-        <p class = "bdyHead"> Oh no! This page isn't available yet.</p>
+        <div class = "formContainer">
+            <h1 class = "bdyHead"> Suggest a Question! </h1>
+            <form action="/suggest" method="POST" class="suggestForm">
+                <label for="question">Question:</label><br>
+                <input type="text" id="question" name="question" required><br><br>
+
+                <label for="optionA">Option A:</label><br>
+                <input type="text" id="optionA" name="optionA" required><br><br>
+
+                <label for="optionB">Option B:</label><br>
+                <input type="text" id="optionB" name="optionB" required><br><br>
+
+                <label for="optionC">Option C:</label><br>
+                <input type="text" id="optionC" name="optionC" required><br><br>
+
+                <label for="optionD">Option D:</label><br>
+                <input type="text" id="optionD" name="optionD" required><br><br>
+
+                <label for="answer">Correct Answer (A, B, C, or D):</label><br>
+                <input type="text" id="answer" name="answer" pattern="[ABCD]" title="Please enter A, B, C, or D." required><br><br>
+
+                <button type="submit">Submit</button>
+            </form>
+        </div>
     </body>
 </html>

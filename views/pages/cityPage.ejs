@@ -9,8 +9,8 @@
     <body>
         <%- include('../partials/header.ejs') %>
         <div class="twoColumns">
-            <div class = "largeCol"> <p class = "bdyHead"> <%= city.city_name %> </p><p class = "bdyTxt"> <%= city.information %> </p></div>
-            <div class = "smallCol" id = "colDisplay"> <img src="/css/images/trinity.jpg"></div>
+            <div class = "smallCol"> <p class = "bdyHead"> <%= city.city_name %> </p><p class = "bdyTxt"> <%= city.information %> </p></div>
+            <div class = "largeCol" id = "colDisplay"> <img src="<%= city.image_url %>"></div>
         </div> 
     </body>
 </html>

@@ -1,12 +1,22 @@
 const express = require('express');
+const session = require('express-session');
 const connection = require('./database.js').databaseConnection;
 const app = express();
 
 app.set('view engine', 'ejs');
 
 app.use(express.static(__dirname + '/public'));
-app.use(express.urlencoded({extended: true}));
 app.use(express.json());
+app.use(session({
+    secret: 'your-secret-key',
+    resave: false,
+    saveUninitialized: false
+}));
+
+app.use((req, res, next) => {
+    res.locals.user = req.session.user || null;
+    next();
+});
 
 app.get('/', (req, res) => {
     try {
@@ -35,21 +45,82 @@ app.get('/login', (req, res) => {
 
 app.post('/login', (req, res) => {
     const { email, password } = req.body;
-
-    // Check admin table for admin password
     connection.query('SELECT * FROM admin WHERE email = ? AND password = ?', [email, password], (err, adminResults) => {
         if (err) return res.status(500).json({ success: false, message: 'Database error' });
         if (adminResults.length > 0) {
+            req.session.user = { email, role: 'admin' };
             return res.json({ success: true, role: 'admin' });
         }
-        // Check player table for account
         connection.query('SELECT * FROM player WHERE email = ? AND password = ?', [email, password], (err, playerResults) => {
             if (err) return res.status(500).json({ success: false, message: 'Database error' });
             if (playerResults.length > 0) {
+                req.session.user = { username: playerResults[0].username, email, role: 'player' };
                 return res.json({ success: true, role: 'player' });
             }
-            // Not found in either table
             return res.json({ success: false, message: 'Invalid email or password' });
+        });
+    });
+});
+
+function getRole(req) {
+    if (!req.session.user) return 'guest';
+    return req.session.user.role; // 'admin' or 'player'
+}
+
+app.get('/profile', (req, res) => {
+    const role = getRole(req);
+    if (role === 'guest') return res.redirect('/login');
+    res.render('pages/profile', { user: req.session.user });
+});
+
+app.get('/adminDashboard', (req, res) => {
+    if (!req.session.user || req.session.user.role !== 'admin') return res.redirect('/');
+    const status = req.query.status || 'pending';
+    connection.query(
+        `SELECT c.*, p.username FROM contact c 
+         LEFT JOIN player p ON c.player_id = p.player_id 
+         WHERE c.status = ? ORDER BY c.submitted_date DESC`,
+        [status],
+        (err, submissions) => {
+            if (err) return res.status(500).send('Database error');
+            res.render('pages/adminDashboard', { submissions, currentStatus: status });
+        }
+    );
+});
+app.post('/adminDashboard/updateStatus', (req, res) => {
+    if (!req.session.user || req.session.user.role !== 'admin') return res.status(403).json({ success: false });
+    
+    const { submission_id, status } = req.body;
+    connection.query(
+        'UPDATE contact SET status = ?, admin_review = ? WHERE submission_id = ?',
+        [status, req.session.user.admin_id, submission_id],
+        (err) => {
+            if (err) return res.json({ success: false });
+            res.json({ success: true });
+        }
+    );
+});
+
+app.get('/logout', (req, res) => {
+    req.session.destroy();
+    res.redirect('/');
+});
+
+app.get('/register', (req, res) => {
+    res.render('pages/register');
+});
+
+app.post('/register', (req, res) => {
+    const { username, email, password } = req.body;
+    connection.query('SELECT * FROM player WHERE email = ?', [email], (err, results) => {
+        if (err) return res.status(500).json({ success: false, message: 'Database error' });
+        if (results.length > 0) {
+            return res.json({ success: false, message: 'User already exists' });
+        }
+        connection.query('INSERT INTO player (username, email, password) VALUES (?, ?, ?)', [username, email, password], (err, result) => {
+            if (err) return res.status(500).json({ success: false, message: 'Database error' });
+            req.session.user = { username, email, role: 'player' };
+            return res.json({ success: true, message: 'User registered successfully' });
         });
     });
 });
@@ -69,10 +140,16 @@ app.get('/city/:cityid', (req, res) => {
 app.get('/suggest', (req, res) => {
     res.render('pages/suggest');
 });
+
+app.post('/suggest', (req, res) => {|   
+});
+
 app.get('/weeklyQuiz', (req, res) => {
     res.render('pages/weeklyQuiz');
 }); 
-
+app.get('/profile', (req, res) => {
+    res.render('pages/profile');
+});
 
 app.listen(3000, () => {
   console.log('Server running on port 3000');

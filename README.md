@@ -11,6 +11,7 @@ cd SoftwareEngineeringProject_PinPopTrivia.git
 
 2. Install dependencies
 ```npm install```
+```npm install express-session```
 
 3. Setup database
 ```mysql -u root -p < MySQLScript.sql```

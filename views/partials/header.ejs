@@ -1,6 +1,10 @@
 <header class="header">
     <h1> PinPop Trivia! </h1>
-    <a class ="login-button" href="/login">Login</a>
+    <% if (user) { %>
+        <a class="login-button" href="/logout">Logout</a>
+    <% } else { %>
+        <a class="login-button" href="/login">Login</a>
+    <% } %>
 </header>
 <div class = "navbar"> 
     <a class = "navButton" href = "/">Home</a>
@@ -9,5 +13,9 @@
     <a class = "navButton" href = "/quiz">Quizzes</a>
     <a class = "navButton" href = "/freeplay">Freeplay</a>
     <a class = "navButton" href = "/suggest">Suggest</a>
-    <a class = "navButton" href = "/profile">Profile</a>
+    <% if (user && user.role === 'admin') { %>
+        <a class = "navButton" href = "/adminDashboard">Admin</a>
+    <% } else { %>
+        <a class = "navButton" href = "/profile">Profile</a>
+    <% } %>
 </div>

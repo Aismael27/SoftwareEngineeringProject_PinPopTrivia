@@ -4,34 +4,37 @@
     color: #fcf8eb;
     font-family: 'Limelight', sans-serif;
     margin-bottom: 0%;
-    display: flex;              /* add this */
-    align-items: center;        /* vertically center both */
-    justify-content: center;    /* keep title centered */
-    position: relative;         /* needed for button positioning */
+    display: flex;              
+    align-items: center;        
+    justify-content: center;    
+    position: relative; 
 }
 
 .header h1 {
     text-align: center;
-    flex: 1;                    /* takes up all space, truly centering the title */
+    flex: 1;
 }
 
-.login-button {
-    position: absolute;         /* pull it out of the flow */
-    right: 20px;                /* stick to the right */
-    background-color: white;
-    color: #0A0905;
-    font-family: 'Special Elite', sans-serif;
-    font-size: 16px;
-    border-radius: 5px;
-    padding: 8px 14px;
-    text-decoration: none;
-}
 * {
     margin: 0;
 }
+
+a {    /* link style */
+    color: #3E0C15;
+}
+a:hover {    /* link hover style */
+    color: #D1b585;
+}
+
 body {
     background-color: #faf1d9;
 }
+.middleSection {
+    margin: 30px auto;
+    max-width: 1200px;
+    padding: 0 20px;
+}
+
 .navbar {
     display: flex;
     justify-content: space-around;
@@ -65,6 +68,9 @@ body {
     column-count: 2;
     column-gap: 0px;
     display: flex;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 40px 20px;
 }
 .smallCol{
     flex: 25%;
@@ -83,12 +89,12 @@ body {
 }
 .bdyTxt {
     font-family: 'Special Elite';
-    font-size: 15px;
+    font-size: 20px;
 }
 
 .bdyHead {
     font-family: 'Special Elite';
-    font-size: 25px;
+    font-size: 35px;
     padding: 5px;
 }
 
@@ -105,11 +111,24 @@ input {
 }
 
 button {
+    font-family: 'Special Elite';
     padding: 10px 20px;
     background-color: #3E0C15;
     color: white;
     border: none;
     cursor: pointer;
+}
+
+.login-button {
+    position: absolute;
+    right: 20px;
+    background-color: white;
+    color: #0A0905;
+    font-family: 'Special Elite', sans-serif;
+    font-size: 16px;
+    border-radius: 5px;
+    padding: 8px 14px;
+    text-decoration: none;
 }
 
 .form-container {
@@ -118,4 +137,76 @@ button {
     padding: 20px;
     background-color: #D1b585;
     border-radius: 5px;
+}
+
+.contentBox {
+    background-color: #D1b585;
+    border-radius: 8px;
+    padding: 20px 30px;
+    margin: 20px auto;
+    width: fit-content;
+}
+
+.adminTable {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'Special Elite', sans-serif;
+    font-size: 14px;
+    table-layout: fixed; 
+}
+
+.adminTable th {
+    background-color: #3E0C15;
+    color: #fcf8eb;
+    padding: 12px 15px;
+    text-align: left;
+    font-family: 'Special Elite', sans-serif;
+}
+
+.adminTable td {
+    padding: 10px 15px;
+    border: 1px solid #D1b585;
+    vertical-align: top;
+    word-wrap: break-word;    
+    white-space: normal;      
+    overflow-wrap: break-word;
+}
+
+.adminTable tr:nth-child(even) {
+    background-color: #f5efd8;
+}
+
+.adminTable tr:hover {
+    background-color: #e8dbb8;
+}
+
+.managementTable {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: 'Special Elite', sans-serif;
+    font-size: 14px;
+    table-layout: fixed; 
+}
+
+.managementTable th {
+    background-color: #3E0C15;
+    color: #fcf8eb;
+    padding: 12px 15px;
+    text-align: left;
+    font-family: 'Special Elite', sans-serif;
+}
+
+.managementTable td {
+    padding: 10px 15px;
+    border: 1px solid #D1b585;
+    vertical-align: top;
+    word-wrap: break-word;    
+    white-space: normal;      
+    overflow-wrap: break-word;
+}
+.managementTable tr:nth-child(even) {
+    background-color: #f5efd8;
+}
+.managementTable tr:hover {
+    background-color: #e8dbb8;
 }
