@@ -22,7 +22,8 @@ app.get('/', (req, res) => {
     try {
         let sql = 
         `SELECT location_id, city_name
-        FROM location;`;    
+        FROM location
+        ORDER BY city_name;`;    
         connection.query(sql, (err, cities) => {
         if (err) throw err;
         res.render('pages/home', {cities: cities});
@@ -149,7 +150,8 @@ app.get('/weeklyQuiz', (req, res) => {
 }); 
 app.get('/profile', (req, res) => {
     res.render('pages/profile');
-});
+}); 
+
 
 app.listen(3000, () => {
   console.log('Server running on port 3000');
