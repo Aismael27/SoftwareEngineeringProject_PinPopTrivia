@@ -142,8 +142,6 @@ app.get('/suggest', (req, res) => {
     res.render('pages/suggest');
 });
 
-app.post('/suggest', (req, res) => {|   
-});
 
 app.get('/weeklyQuiz', (req, res) => {
     res.render('pages/weeklyQuiz');
