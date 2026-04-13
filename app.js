@@ -7,6 +7,7 @@ app.set('view engine', 'ejs');
 
 app.use(express.static(__dirname + '/public'));
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(session({
     secret: 'your-secret-key',
     resave: false,
@@ -105,6 +106,7 @@ app.post('/adminDashboard/updateStatus', (req, res) => {
 app.get('/logout', (req, res) => {
     req.session.destroy();
     res.redirect('/');
+    return res.json({ success: true, message: 'Logged out successfully' });
 });
 
 app.get('/register', (req, res) => {
@@ -142,6 +144,19 @@ app.get('/suggest', (req, res) => {
     res.render('pages/suggest');
 });
 
+app.post('/suggest', (req, res) => {
+    const { submissionType, message, question, optionA, optionB, optionC, optionD, answer } = req.body;
+    const playerEmail = req.session.user.email;
+
+    connection.query(
+        'INSERT INTO contact (player_id, submission_type, message, question_text, option_A, option_B, option_C, option_D, correct_option) VALUES ((SELECT player_id FROM player WHERE email = ?), ?, ?, ?, ?, ?, ?, ?, ?)',
+        [playerEmail, submissionType, message, question, optionA, optionB, optionC, optionD, answer],
+        (err) => {
+            if (err) return res.status(500).json({ success: false, message: 'Database error' });
+            return res.json({ success: true, message: 'Question suggestion submitted successfully' });
+        }
+    );
+});
 
 app.get('/weeklyQuiz', (req, res) => {
     res.render('pages/weeklyQuiz');
@@ -149,6 +164,28 @@ app.get('/weeklyQuiz', (req, res) => {
 app.get('/profile', (req, res) => {
     res.render('pages/profile');
 }); 
+
+app.get('/admin/questionManagement', (req, res) => {
+    if (!req.session.user || req.session.user.role !== 'admin') return res.redirect('/');
+    connection.query('SELECT * FROM questions ORDER BY date_added DESC', (err, questions) => {
+        if (err) {
+            console.log(err);
+            return res.status(500).send('Database error');
+        }
+        res.render('pages/admin/questionManagement', { questions });
+    }); 
+});
+
+app.get('/admin/userManagement', (req, res) => {
+    if (!req.session.user || req.session.user.role !== 'admin') return res.redirect('/');
+    connection.query('SELECT * FROM player ORDER BY date_join DESC', (err, users) => {
+        if (err) {
+            console.log(err);
+            return res.status(500).send('Database error');
+        }
+        res.render('pages/admin/userManagement', { users });
+    });
+});
 
 
 app.listen(3000, () => {

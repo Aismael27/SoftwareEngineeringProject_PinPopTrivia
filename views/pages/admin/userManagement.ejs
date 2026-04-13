@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Question Management</title>
+        <link rel="stylesheet" type="text/css" href="/css/style.css"/>
+        <link href="https://fonts.googleapis.com/css2?family=Special+Elite&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Limelight&family=Special+Elite&display=swap" rel="stylesheet">
+    </head>
+    <body>
+        <%- include('../../partials/header.ejs') %>
+
+        <div class="middleSection">
+            <h2 class="bdyHead">User Management</h2>
+            <% if (users.length === 0) { %>
+                <p class="bdyTxt">No users found.</p>
+            <% } else { %>
+            <table class="adminTable">
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Email</th>
+                        <th>Date Joined</th>
+                        <th>Freeplay Score</th>
+                        <th>Deleted</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% users.forEach(u => { %>
+                    <tr>
+                        <td><%= u.username %></td>
+                        <td><%= u.email %></td>
+                        <td><%= u.date_join.toISOString().split('T')[0] %></td>
+                        <td><%= u.freeplay_score %></td>
+                        <td><%= u.deleted ? 'Yes' : 'No' %></td>
+                    </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+            <% } %>
+        </div>
+    </body>
+</html>

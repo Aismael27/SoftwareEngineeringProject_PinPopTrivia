@@ -1,34 +1,50 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title><%= city.city_name %></title>
+        <title>Question Management</title>
         <link rel="stylesheet" type="text/css" href="/css/style.css"/>
         <link href="https://fonts.googleapis.com/css2?family=Special+Elite&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Limelight&family=Special+Elite&display=swap" rel="stylesheet">
     </head>
     <body>
-        <%- include('../partials/header.ejs') %>
-        <h1 class="bdyHead">Question Management</h1>
-        <table class="managementTable">
-            <thead>
-                <tr>
-                    <th>Question Id</th>
-                    <th>Question</th>
-                    <th>Media</th>  <!-- Connect through media ID -->
-                    <th>Location</th>  <!-- Connect through location ID -->
-                    <th>Answer</th>
-                    <th>A</th>
-                    <th>B</th>
-                    <th>C</th>
-                    <th>D</th>
-                    <th>Points</th>
-                    <th>Date added</th> 
-                    <th>Authors</th>
-                </tr>
-            </thead>
-            <tbody>
-                
-            </tbody>
-        </table>
+        <%- include('../../partials/header.ejs') %>
+
+        <div class="middleSection">
+            <h2 class="bdyHead">Question Management</h2>
+            <% if (questions.length === 0) { %>
+                <p class="bdyTxt">No questions found.</p>
+            <% } else { %>
+            <table class="adminTable">
+                <thead>
+                    <tr>
+                        <th>Question</th>
+                        <th>Option A</th>
+                        <th>Option B</th>
+                        <th>Option C</th>
+                        <th>Option D</th>
+                        <th>Answer</th>
+                        <th>Date added</th>
+                        <th>Author</th>
+                        <th>Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% questions.forEach(q => { %>
+                    <tr>
+                        <td><%= q.question %></td>
+                        <td><%= q.option_a %></td>
+                        <td><%= q.option_b %></td>
+                        <td><%= q.option_c %></td>
+                        <td><%= q.option_d %></td>
+                        <td><%= q.answer %></td>
+                        <td><%= q.date_added.toISOString().split('T')[0] %></td>
+                        <td><%= q.author || 'Unknown' %></td>
+                        <td><button class="adminButton" onclick="">Delete</button></td>
+                    </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+            <% } %>
+        </div>
     </body>
 </html>

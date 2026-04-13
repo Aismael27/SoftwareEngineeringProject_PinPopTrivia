@@ -8,32 +8,79 @@
     </head>
     <body>
         <%- include('../partials/header.ejs') %>
-        <div class = "formContainer">
-            <h1 class = "bdyHead"> Suggest a Question! </h1>
-            <form action="/suggest" method="POST" class="suggestForm">
-                <label for="player">Username:</label><br>
-                <input type="text" id="player" name="player" required><br><br>
+        <div class="form-container">
+            <h1 class = "bdyHead"> Send a contact message! </h1>
+            <form onsubmit="handleSuggest(event)" class="suggestForm">
+                <label for="submissionType">Submission Type:</label><br>
+                <select id="submissionType" name="submissionType" required> 
+                    <option value="">Select a type</option>
+                    <option value="feedback">General Feedback</option>
+                    <option value="suggestion">Question Suggestion</option>
+                    <option value="other">Other</option>
+                </select><br><br>
+                
+                <label for="message">Message (optional):</label><br>
+                <textarea id="message" name="message" rows="4" cols="50"></textarea><br><br>
 
-                <label for="question">Question:</label><br>
+                <label for="question">Question: (if submitting a question suggestion)</label><br>
                 <input type="text" id="question" name="question" required><br><br>
 
-                <label for="optionA">Option A:</label><br>
+                <label for="optionA">Option A: (if submitting a question suggestion)</label><br>
                 <input type="text" id="optionA" name="optionA" required><br><br>
 
-                <label for="optionB">Option B:</label><br>
+                <label for="optionB">Option B: (if submitting a question suggestion)</label><br>
                 <input type="text" id="optionB" name="optionB" required><br><br>
 
-                <label for="optionC">Option C:</label><br>
+                <label for="optionC">Option C: (if submitting a question suggestion)</label><br>
                 <input type="text" id="optionC" name="optionC" required><br><br>
 
-                <label for="optionD">Option D:</label><br>
+                <label for="optionD">Option D: (if submitting a question suggestion)</label><br>
                 <input type="text" id="optionD" name="optionD" required><br><br>
 
-                <label for="answer">Correct Answer (A, B, C, or D):</label><br>
-                <input type="text" id="answer" name="answer" pattern="[ABCD]" title="Please enter A, B, C, or D." required><br><br>
+                <label for="answer">Correct Answer (A, B, C, or D): (if submitting a question suggestion)</label><br>
+                <select id="answer" name="answer" required>
+                    <option value="">Select an option</option>
+                    <option value="A">A</option>
+                    <option value="B">B</option>
+                    <option value="C">C</option>
+                    <option value="D">D</option>
+                </select><br><br>
 
                 <button type="submit">Submit</button>
             </form>
         </div>
+    <script>
+    function handleSuggest(event) {
+        event.preventDefault();
+
+        const submissionType = document.getElementById('submissionType').value;
+        const message = document.getElementById('message').value;
+        const question = document.getElementById('question').value;
+        const optionA = document.getElementById('optionA').value;
+        const optionB = document.getElementById('optionB').value;
+        const optionC = document.getElementById('optionC').value;
+        const optionD = document.getElementById('optionD').value;
+        const answer = document.getElementById('answer').value;
+
+        fetch('/suggest', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ submissionType, message, question, optionA, optionB, optionC, optionD, answer }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Question submitted successfully!');
+                window.location.href = '/';
+            } else {
+                alert('Submission failed: ' + data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error during submission:', error);
+            alert('An error occurred. Please try again later.');
+        });
+    }
+    </script>
     </body>
 </html>

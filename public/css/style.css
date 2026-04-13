@@ -56,6 +56,10 @@ body {
     font-size: 20px;
     text-decoration-line: none;
 }
+.navButton:hover {
+    background-color: #3E0C15;
+    color: #fcf8eb;
+}
 .navBox {
     height: 5px;
     border-radius: 5px;
@@ -132,6 +136,7 @@ button {
 }
 
 .form-container {
+    font-family: 'Special Elite', sans-serif;
     max-width: 400px;
     margin: 50px auto;
     padding: 20px;
@@ -145,6 +150,7 @@ button {
     padding: 20px 30px;
     margin: 20px auto;
     width: fit-content;
+    font-family: 'Special Elite', sans-serif;
 }
 
 .adminTable {
@@ -209,4 +215,13 @@ button {
 }
 .managementTable tr:hover {
     background-color: #e8dbb8;
+}
+
+select {
+    font-family: 'Special Elite', sans-serif;
+    display: block;
+    margin-bottom: 10px;
+    padding: 8px;
+    width: 100%;
+    box-sizing: border-box;
 }

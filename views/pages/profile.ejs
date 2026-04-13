@@ -10,7 +10,8 @@
         <%- include('../partials/header.ejs') %>
         <div class="twoColumns">
             <div class = "largeCol" id = "colDisplay"> 
-                <p class = "bdyHead"> Hi <%= user.username %> </p>
+                <div class = "contentBox">
+                <p class = "bdyHead"> Hi <%= user.username %> !</p> </div>
                 <p class = "bdyTxt"> Your current points: <%= user.points %> </p>
                 <p class = "bdyTxt"> Your current level: <%= user.level %> </p>
 

@@ -30,6 +30,12 @@
                         <th>Type</th>
                         <th>Date</th>
                         <th>Message</th>
+                        <th>Question</th>
+                        <th>Option A</th>
+                        <th>Option B</th>
+                        <th>Option C</th>
+                        <th>Option D</th>
+                        <th>Correct Option</th>
                         <th>Status</th>
                         <th>Actions</th>
                     </tr>
@@ -42,6 +48,12 @@
                         <td><%= sub.submission_type %></td>
                         <td><%= sub.submitted_date.toISOString().split('T')[0] %></td>
                         <td><%= sub.message || '-' %></td>
+                        <td><%= sub.question_text || '-' %></td>
+                        <td><%= sub.option_A || '-' %></td>
+                        <td><%= sub.option_B || '-' %></td>
+                        <td><%= sub.option_C || '-' %></td>
+                        <td><%= sub.option_D || '-' %></td>
+                        <td><%= sub.correct_option || '-' %></td>
                         <td><%= sub.status %></td>
                         <td>
                             <% if (sub.status === 'pending') { %>
