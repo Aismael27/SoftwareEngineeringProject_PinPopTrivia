@@ -39,7 +39,13 @@ app.get('/freeplay', (req, res) => {
     res.render('pages/freeplay');
 });
 app.get('/leaderboard', (req, res) => {
-    res.render('pages/leaderboard');
+    connection.query('SELECT username, freeplay_score FROM player ORDER BY freeplay_score DESC LIMIT 10', (err, users) => {
+        if (err) {
+            console.log(err);
+            return res.status(500).send('Database error');
+        }
+        res.render('pages/leaderboard', { users });
+    });
 });
 app.get('/login', (req, res) => {
     res.render('pages/login');
@@ -66,13 +72,25 @@ app.post('/login', (req, res) => {
 
 function getRole(req) {
     if (!req.session.user) return 'guest';
-    return req.session.user.role; // 'admin' or 'player'
+    return req.session.user.role;
 }
 
 app.get('/profile', (req, res) => {
     const role = getRole(req);
     if (role === 'guest') return res.redirect('/login');
     res.render('pages/profile', { user: req.session.user });
+});
+app.post('/profile/deleteAccount', (req, res) => {
+    if (!req.session.user || req.session.user.role !== 'player') return res.status(403).json({ success: false });
+    const { submission_id, status } = req.body;
+    connection.query(
+        'UPDATE player SET is_deleted = ? WHERE email = ?',
+        [true, req.session.user.email],
+        (err) => {
+            if (err) return res.json({ success: false });
+            res.json({ success: true });
+        }
+    );
 });
 
 app.get('/adminDashboard', (req, res) => {

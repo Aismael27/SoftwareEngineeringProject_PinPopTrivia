@@ -8,7 +8,27 @@
     </head>
     <body>
         <%- include('../partials/header.ejs') %>
-        <div id = "colDisplay"> <img src = "/css/images/catError.webp"></div>
-        <p class = "bdyHead"> Oh no! This page isn't available yet.</p>
+
+        <div class="contentBox">
+            <h2 class="bdyHead">Leaderboard</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Username</th>
+                        <th>Freeplay Score</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% users.forEach(u => { %>
+                    <tr>
+                        <td><%= users.indexOf(u) + 1 %></td>
+                        <td><%= u.username %></td>
+                        <td><%= u.freeplay_score %></td>
+                    </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        </div>
     </body>
 </html>

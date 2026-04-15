@@ -8,15 +8,49 @@
     </head>
     <body>
         <%- include('../partials/header.ejs') %>
-        <div class="twoColumns">
-            <div class = "largeCol" id = "colDisplay"> 
-                <div class = "contentBox">
-                <p class = "bdyHead"> Hi <%= user.username %> !</p> </div>
-                <p class = "bdyTxt"> Your current points: <%= user.points %> </p>
-                <p class = "bdyTxt"> Your current level: <%= user.level %> </p>
-
-            </div>
-            <div class = "smallCol"> <div class = "contentBox"> <p class = "bdyHead"> Badges </p> <p class = "bdyTxt"> Your current badges: </p> </div> </div>
-        </div> 
+                <div class = "twoColumns">
+                    <div class = "largeCol"> 
+                        <div class = "contentBox"> 
+                            <p class = "bdyHead"> <b><u> Hi <%= user.username %>!</u></b> <br> <br> Welcome to your profile page. <br></p> 
+                            <ul class = "bdyTxt"> 
+                                <p class = "bdyTxt"> <b>Your current points:</b> <%= user.points %> </p>
+                                <p class = "bdyTxt"> <b>Your current freeplay score:</b> <%= user.freeplay_score %> </p>
+                                <p class="bdyTxt"><b>Your email:</b> <%= user.email %></p>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class = "smallCol"> 
+                            <br> <br> <br> <br>
+                            <p class = "bdyHead">DANGER ZONE</p> 
+                            <button class = "BIGbutton" onclick="deleteFunction()">DELETE YOURSELF</button>
+                        
+                    </div>
+                </div>
+        <script>
+            function deleteFunction() {
+                if (confirm("Are you sure you want to delete your account? This action cannot be undone and you will not be able to play with the email again.")) {
+                    fetch('/profile/deleteAccount', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({})
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            alert('Your account has been deleted.');
+                            window.location.href = '/';
+                        } else {
+                            alert('There was an error deleting your account. Please try again.');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                        alert('There was an error deleting your account. Please try again.');
+                    });
+                }
+            }
+        </script>  
     </body>
 </html>

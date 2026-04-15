@@ -123,6 +123,16 @@ button {
     cursor: pointer;
 }
 
+.BIGbutton {
+    font-family: 'Special Elite';
+    padding: 15px 30px;
+    background-color: #3E0C15;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 25px;
+}
+
 .login-button {
     position: absolute;
     right: 20px;
@@ -186,36 +196,17 @@ button {
     background-color: #e8dbb8;
 }
 
-.managementTable {
+table {
     width: 100%;
     border-collapse: collapse;
     font-family: 'Special Elite', sans-serif;
-    font-size: 14px;
-    table-layout: fixed; 
 }
-
-.managementTable th {
-    background-color: #3E0C15;
-    color: #fcf8eb;
-    padding: 12px 15px;
-    text-align: left;
-    font-family: 'Special Elite', sans-serif;
-}
-
-.managementTable td {
-    padding: 10px 15px;
+table th, table td {
     border: 1px solid #D1b585;
-    vertical-align: top;
-    word-wrap: break-word;    
-    white-space: normal;      
-    overflow-wrap: break-word;
+    padding: 10px;
+    text-align: left;
 }
-.managementTable tr:nth-child(even) {
-    background-color: #f5efd8;
-}
-.managementTable tr:hover {
-    background-color: #e8dbb8;
-}
+
 
 select {
     font-family: 'Special Elite', sans-serif;
