@@ -147,7 +147,7 @@ INSERT INTO media(title, direct_author, media_type) VALUES
     ('Your Name', 'Makoto Shinkai', 'Movie'), -- Tokyo
     ('The Diary of Anne Frank', 'Anne Frank', 'Book'), -- Amsterdam
     ('The Fault in our Stars', 'John Green', 'Book'), -- Amsterdam
-    ('Girl with a Pearl Earing', 'Peter WEbber', 'Movie'), -- Amsterdam
+    ('Girl with a Pearl Earing', 'Peter Webber', 'Movie'), -- Amsterdam
     ('Lord of the Rings', 'Peter Jackson', 'Movie'), -- Wellington
     ('Bridgerton', 'Julia Quinn', 'TV Show'), -- London
     ('Fleabag', 'Phoebe Waller-Bridge', 'TV Show'), -- London
@@ -192,27 +192,33 @@ INSERT INTO questions (question, media_id, location_id, answer, option_a, option
 ('Blue Eye Samurai', 'Michael Green', 'TV Show');  -- 29
 
 INSERT INTO questions (question, media_id, location_id, answer, option_a, option_b, option_c, option_d, points, author) VALUES
--- Question 6: The Royal Tenenbaums – New York (location_id=1)
+-- Question 6: The Royal Tenenbaums – New York (media_id=24, location_id=1)
 ('Which Wes Anderson film is set in New York?', 
  24, 1, 'A','The Royal Tenenbaums', 'Moonrise Kingdom', 'Isle of Dogs', 'Asteroid City', 1000, 'Admin'),
--- Question 7: The Kissing Booth – Cape Town (location_id=13)
+-- Question 7: The Kissing Booth – Cape Town (media_id=25, location_id=13)
 ('Which teen movie uses footage from Cape Town, South Africa for its beach scenes despite being set in LA?',
  25, 13, 'A', 'The Kissing Booth', 'Teen Beach Movie', 'High School Musical', 'Mr. Bean\'s Holiday', 1000, 'Admin'),
--- Question 8: Chicago: The Musical – Chicago (location_id=15)
+-- Question 8: Chicago: The Musical – Chicago (media_id=26, location_id=15)
 ('Which song is NOT in "Chicago: The Musical"?', 
  26, 15, 'C', 'When You\'re Good to Mama', 'They Both Reached for the Gun', 'El Tango de Roxanne', 'Razzle Dazzle', 1000, 'Admin'),
--- Question 9: The Mask of Zorro – Mexico City (location_id=8)
+-- Question 9: The Mask of Zorro – Mexico City (media_id=27, location_id=8)
 ('Filmed in Mexico City, the charming protagonist of what movie went on to inspire the character Puss in Boots in Shrek?',
  27, 8, 'A', 'The Mask of Zorro', 'The Princess Bride', 'Pirates of the Caribbean: The Black Pearl', 'The Count of Monte Cristo', 1000, 'Admin'),
--- Question 10: Iron Man 2 – Monaco (location_id=11)
+-- Question 10: Iron Man 2 – Monaco (media_id=28, location_id=11)
 ('Which Avenger has one of their movies filmed in Monaco?',
  28, 11, 'B', 'Thor', 'Iron Man', 'Captain America', 'Black Widow', 1000, 'Admin'),
--- Question 11: Blue Eye Samurai – Tokyo (location_id=5)
+-- Question 11: Blue Eye Samurai – Tokyo (media_id=29, location_id=5)
 ('"Blue Eye Samurai" takes place in Japan and features multiple scenes in modern day Tokyo. However, the city is referred to as what name instead?',
  29, 5, 'C', 'Kyoto', 'Honshu', 'Edo', 'Tanabe', 1000, 'Admin'),
--- Question 12: Iron Man 2 – Monaco (location_id=11)
+-- Question 12: Iron Man 2 – Monaco (media_id=28, location_id=11)
 ('Where was the scene of Iron Man 2 filmed when Elon Musk apears?',
  28, 11, 'B', 'Thor', 'Iron Man', 'Captain America', 'Black Widow', 1000, 'Admin'),
--- Question 13: Emily in Paris – Paris (location_id=9)
+-- Question 13: Emily in Paris – Paris (media_id=17, location_id=9)
 ('Despite being known as “Emily in Paris”, the protagonist doesn’t learn French until what season?',
- 17, 9, 'C', 'Season 2', 'Season 3', 'Season 4', 'Season 5', 1000, 'Admin');
+ 17, 9, 'C', 'Season 2', 'Season 3', 'Season 4', 'Season 5', 1000, 'Admin'),
+ -- Question 14: Twilight – Rio de Janeiro (media_id=13, location_id=7)
+('Which Twilight movie was partially filmed in Rio de Janeiro, Brazil?',
+ 13, 7, 'C', 'Twilight (2008)', 'New Moon (2009)', 'Breaking Dawn Part 1 (2011)', 'Breaking Dawn Part 2 (2012)', 1000, 'Admin'),
+-- Question 15: Girl with a Pearl Earring – Amsterdam (media_id=8, location_id=2)
+('Which painting-turned-film was filmed in Amsterdam and depicts the story behind one of history\'s most famous portraits?',
+ 8, 2, 'B', 'The Da Vinci Code', 'Girl with a Pearl Earring', 'Frida', 'Midnight in Paris', 1000, 'Admin');
