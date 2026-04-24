@@ -62,7 +62,7 @@ CREATE TABLE IF NOT EXISTS questions (
 CREATE TABLE IF NOT EXISTS quiz (
 	quiz_id		INT NOT NULL AUTO_INCREMENT,
     player_id	INT NOT NULL,
-    quiz_type	ENUM('weekly', 'freeplay', 'regional') NOT NULL,
+    quiz_type	ENUM('freeplay', 'short') NOT NULL,
     score		INT NOT NULL DEFAULT 0,
     date		DATE NOT NULL DEFAULT (CURRENT_DATE),
     PRIMARY KEY (quiz_id),
@@ -84,7 +84,7 @@ CREATE TABLE IF NOT EXISTS quiz_questions (
 CREATE TABLE IF NOT EXISTS leaderboard (
     leaderboard_id	INT NOT NULL AUTO_INCREMENT,
     player_id		INT NOT NULL,
-    board_type		ENUM('weekly','freeplay') NOT NULL,
+    board_type		ENUM('short','freeplay') NOT NULL,
     score 			INT NOT NULL DEFAULT 0,
     date			DATE NOT NULL DEFAULT (CURRENT_DATE),
     week_start		DATE,
@@ -222,3 +222,5 @@ INSERT INTO questions (question, media_id, location_id, answer, option_a, option
 -- Question 15: Girl with a Pearl Earring – Amsterdam (media_id=8, location_id=2)
 ('Which painting-turned-film was filmed in Amsterdam and depicts the story behind one of history\'s most famous portraits?',
  8, 2, 'B', 'The Da Vinci Code', 'Girl with a Pearl Earring', 'Frida', 'Midnight in Paris', 1000, 'Admin');
+ 
+ INSERT INTO player (username, email, password, date_join) VALUES ('Avery L','a@trinity.edu','al','2026-04-13');
