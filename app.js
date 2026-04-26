@@ -176,9 +176,6 @@ app.post('/suggest', (req, res) => {
     );
 });
 
-app.get('/weeklyQuiz', (req, res) => {
-    res.render('pages/weeklyQuiz');
-}); 
 app.get('/profile', (req, res) => {
     res.render('pages/profile');
 }); 
