@@ -8,7 +8,26 @@
     </head>
     <body>
         <%- include('../partials/header.ejs') %>
-        <div id = "colDisplay"> <img src = "/css/images/catError.webp"></div>
-        <p class = "bdyHead"> Oh no! This page isn't available yet.</p>
+        <div class="quiz_head">
+            <div><img src="/css/images/Reel.png" alt="camera" width="75" height="60"></div>
+            <div class="quiz_text"> Question here.</div>
+        </div>
+        <div class="quiz_body" id="a">
+            <div class="quiz_answer" onclick="clicked(this, 'a')"> A.) Answer 1 here.</div>
+        </div> 
+        <div class="quiz_body" id="b">
+            <div class="quiz_answer" onclick="clicked(this, 'b')"> B.) Answer 2 here.</div>
+        </div> 
+        <div class="quiz_body" id="c">
+            <div class="quiz_answer" onclick="clicked(this, 'c')"> C.) Answer 3 here.</div>
+        </div> 
+        <div class="quiz_body" id ="d">
+            <div class="quiz_answer" onclick="clicked(this, 'd')"> D.) Answer 4 here.</div>
+        </div> 
+        <script>
+            function clicked (element){
+                element.style.color = "red";
+            }
+        </script>
     </body>
 </html>
