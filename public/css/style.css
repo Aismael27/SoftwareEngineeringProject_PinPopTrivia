@@ -122,6 +122,9 @@ button {
     border: none;
     cursor: pointer;
 }
+button:hover {
+    background-color: #D1b585;
+}
 
 .BIGbutton {
     font-family: 'Special Elite';

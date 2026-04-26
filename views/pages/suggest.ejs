@@ -8,6 +8,15 @@
     </head>
     <body>
         <%- include('../partials/header.ejs') %>
+        <% if (!user) { %>
+            <div class="form-container">
+                <div style="justify-content:center; align-items:center; font-size: 25px;">
+                <h2>You must be logged in to submit a suggestion:</p>
+                <br>
+                <button class="button" style="font-size: 25px;" onclick="window.location.href='/login'">Log In</button>
+                </div>
+            </div>
+        <% } else { %>
         <div class="form-container">
             <h1 class = "bdyHead"> Send a contact message! </h1>
             <form onsubmit="handleSuggest(event)" class="suggestForm">
@@ -82,5 +91,6 @@
         });
     }
     </script>
+    <% } %>
     </body>
 </html>
