@@ -123,7 +123,7 @@ app.post('/adminDashboard/updateStatus', (req, res) => {
 
 app.get('/logout', (req, res) => {
     req.session.destroy();
-    res.redirect('/');
+    res.redirect('/login');
     return res.json({ success: true, message: 'Logged out successfully' });
 });
 
