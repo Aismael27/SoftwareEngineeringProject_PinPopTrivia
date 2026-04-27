@@ -263,7 +263,7 @@ select {
     align-items: center;
     margin-top: 20px;
 }
-.nextButton {
+#nextButton {
     border-radius: 5px;
     color: #e7e1d8;
     text-align: center;
@@ -272,9 +272,8 @@ select {
     text-decoration-line: none;
     padding: 10px;
     display: none;
-
 }
-.nextButton:hover{
+#nextButton:hover{
     color: #042d29;
     background-color: #e7e1d8;
 }
