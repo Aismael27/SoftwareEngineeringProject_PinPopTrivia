@@ -149,6 +149,38 @@ app.post('/register', (req, res) => {
 app.get('/quiz', (req, res) => {
     res.render('pages/quiz');
 });
+app.post('/quiz', (req, res) => {
+                const {score} = req.body;
+                const player = req.session.user.player_id;
+                const quizType = 'short';
+
+                connection.query(
+                    'INSERT INTO quiz (player_id, quiz_type, score, ?, ?, ?)',
+                    [player, quizType, score],
+                    (err) => {
+                        if (err) return res.status(500).json({ success: false, message: 'Database error' });
+                        return res.json({ success: true, message: 'Question suggestion submitted successfully' });
+                    }
+                )
+});
+
+app.get('/api/question', (req, res) => {
+    let sql = 
+    `SELECT * 
+    FROM questions 
+    ORDER BY RAND()
+    LIMIT 1;`;
+
+    connection.query(sql, (err, results) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).json({ success: false });
+        }
+
+        res.json({ success: true, question: results[0] });
+    });
+});
+
 app.get('/city/:cityid', (req, res) => {
     const cityid = req.params.cityid;
 
