@@ -221,40 +221,40 @@ select {
 }
 
 .quiz_head {
-   justify-content: center;
-   display: flex;
-   align-items: center;
+    justify-content: center;
+    display: flex;
+    align-items: center;
 }
 .quiz_text {
-   border-radius: 5px;
-   color: #140e07;
-   text-align: left;
-   background-color: #D8D1c5;
-   padding: 10px;
-   font-family: Arial;
-   text-decoration-line: none;
-   width: 400px;
-   margin-top: 5px;
+    border-radius: 5px;
+    color: #140e07;
+    text-align: left;
+    background-color: #D8D1c5;
+    padding: 10px;
+    font-family: Arial;
+    text-decoration-line: none;
+    width: 400px;
+    margin-top: 5px;
 }
 .quiz_body {
-   justify-content: center;
-   display: flex;
-   align-items: center;
-   margin-top: 20px;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
 }
 .quiz_answer {
-   border-radius: 5px;
-   color: #140e07;
-   text-align: left;
-   background-color: #e7e1d8;
-   font-family: Arial;
-   text-decoration-line: none;
-   width: 400px;
-   padding: 10px;
+    border-radius: 5px;
+    color: #140e07;
+    text-align: left;
+    background-color: #e7e1d8;
+    font-family: Arial;
+    text-decoration-line: none;
+    width: 400px;
+    padding: 10px;
 }
 .quiz_answer:hover{
-   color: #e7e1d8;
-   background-color: #042d29;
+    color: #e7e1d8;
+    background-color: #042d29;
 }
 
 .next {
