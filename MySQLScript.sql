@@ -212,7 +212,7 @@ INSERT INTO questions (question, media_id, location_id, answer, option_a, option
  29, 5, 'C', 'Kyoto', 'Honshu', 'Edo', 'Tanabe', 1000, 'Admin'),
 -- Question 12: Iron Man 2 – Monaco (media_id=28, location_id=11)
 ('Where was the scene of Iron Man 2 filmed when Elon Musk apears?',
- 28, 11, 'B', 'New Yord', 'Monaco', 'Los Angeles', 'Cape Town', 1000, 'Admin'),
+ 28, 11, 'B', 'New York', 'Monaco', 'Los Angeles', 'Cape Town', 1000, 'Admin'),
 -- Question 13: Emily in Paris – Paris (media_id=17, location_id=9)
 ('Despite being known as “Emily in Paris”, the protagonist doesn’t learn French until what season?',
  17, 9, 'C', 'Season 2', 'Season 3', 'Season 4', 'Season 5', 1000, 'Admin'),
