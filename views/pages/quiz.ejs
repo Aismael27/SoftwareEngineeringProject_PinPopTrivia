@@ -36,15 +36,14 @@
         <div class ="scoreText">Questions answered:</div>
         <div class ="scoreText" id = "qc"></div>
         <script defer>
-            window.onload = function(){
-                const quizEnd = false;
-                const totalScore = 0;
-                const questScore = 3000;
-                const gamemode = 's'; // change to 'f' for freeplay mode
-                setTimeout(lostTime(), 30000)
-                setInterval(updater(), 10)
-                const questCount = 0; 
-            }
+            var quizEnd = false;
+            var totalScore = 0;
+            var questScore = 3000;
+            var gamemode = 's'; // change to 'f' for freeplay mode
+            setTimeout(lostTime(), 30000)
+            setInterval(updater(), 10)
+            var questCount = 0; 
+
             function updater(){
                 questscore = questScore - 1;
             }
