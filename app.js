@@ -177,7 +177,19 @@ app.get('/api/question', (req, res) => {
             return res.status(500).json({ success: false });
         }
 
-        res.json({ success: true, question: results[0] });
+        const q = results[0];
+
+        res.json({
+            success: true,
+            question: {
+                question: q.question,
+                option_a: q.option_a,
+                option_b: q.option_b,
+                option_c: q.option_c,
+                option_d: q.option_d,
+                answer: q.answer
+            }
+        });
     });
 });
 

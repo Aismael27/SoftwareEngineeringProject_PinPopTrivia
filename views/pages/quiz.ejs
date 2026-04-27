@@ -9,6 +9,7 @@
     </head>
     <body>
         <%- include('../partials/header.ejs') %>
+        <div id="answer"></div>
         <div class="quiz_head">
             <div>
                 <img src="/css/images/Reel.png" alt="camera" width="75" height="60">
@@ -16,16 +17,16 @@
             <div class="quiz_text" id="question"></div>
         </div>
         <div class="quiz_body">
-            <div class="quiz_answer" type = "button" id="A" onclick="clicked(this, 'A')"></div>
+            <div class="quiz_answer" id="A" onclick="clicked(this, 'A')"></div>
         </div> 
         <div class="quiz_body">
-            <div class="quiz_answer" type = "button" id="B" onclick="clicked(this, 'B')"></div>
+            <div class="quiz_answer" id="B" onclick="clicked(this, 'B')"></div>
         </div> 
         <div class="quiz_body">
-            <div class="quiz_answer" type = "button" id="C" onclick="clicked(this, 'C')"></div>
+            <div class="quiz_answer" id="C" onclick="clicked(this, 'C')"></div>
         </div> 
         <div class="quiz_body">
-            <div class="quiz_answer" type = "button" id="D" onclick="clicked(this, 'D')"></div>
+            <div class="quiz_answer"  id="D" onclick="clicked(this, 'D')"></div>
         </div> 
         <div class="next" id ="next">
             <div class="nextButton" onclick="next()"> Next </div>
@@ -34,7 +35,7 @@
         <div class ="scoreText" id = "score"></div>
         <div class ="scoreText">Questions answered:</div>
         <div class ="scoreText" id = "qc"></div>
-        <script>
+        <script defer>
             window.onload = function(){
                 const quizEnd = false;
                 const totalScore = 0;
@@ -50,7 +51,7 @@
             function clicked (element, char){
                 clearInterval();
                 clearTimeout();
-                if(char !== q.answer){
+                if(char !== document.getElementById('answer').textContent){
                     element.style.backgroundColor = "#81231e";
                     if (gamemode = 'f'){
                         quizEnd = true;
@@ -77,20 +78,15 @@
                 questionEnd();
             }
             function questionEnd(){
-                if (q.answer === 'A'){
+                if (document.getElementById('answer').textContent === 'A'){
                     document.getElementById("A").backgroundColor = "#70683b";
-                } else if (q.answer === 'B'){
+                } else if (document.getElementById('answer').textContent === 'B'){
                     document.getElementById("B").backgroundColor = "#70683b";
-                } else if (q.answer === 'C'){
+                } else if (document.getElementById('answer').textContent === 'C'){
                     document.getElementById("C").backgroundColor = "#70683b";
                 }else {
                     document.getElementById("D").backgroundColor = "#70683b";
                 } // reveals the Correct answer
-                document.getElementById("A").disabled = "true";
-                document.getElementById("B").disabled = "true";
-                document.getElementById("C").disabled = "true";
-                document.getElementById("D").disabled = "true";
-                // disables questions
                 document.getElementById("next").display = "flex";
                 // reveals next button
             }
@@ -108,13 +104,9 @@
                 setTimeout(lostTime(), 30000);
                 questScore = 3000;
                 document.getElementById("A").backgroundColor = "#e7e1d8";
-                document.getElementById("A").disabled = "false";
                 document.getElementById("B").backgroundColor = "#e7e1d8";
-                document.getElementById("B").disabled = "false";
                 document.getElementById("C").backgroundColor = "#e7e1d8";
-                document.getElementById("C").disabled = "false";
                 document.getElementById("D").backgroundColor = "#e7e1d8";
-                document.getElementById("D").disabled = "false";
                 document.getElementById("next").display = "none";
             }
             function quizEnd (){
