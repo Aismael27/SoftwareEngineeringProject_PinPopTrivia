@@ -13,11 +13,12 @@ cd SoftwareEngineeringProject_PinPopTrivia.git
 ```npm install```
 ```npm install express-session```
 
-3. Setup database
-Must be version '8.0.45'
-```mysql -u root -p < MySQLScript.sql```
+3. Setup database - MySQL version '8.0.45'
+```
+mysql -u root -p < MySQLScript.sql
+```
 
-4. Modify .env 
+5. Modify .env 
 ```
 DATABASE_HOST=localhost
 DATABASE_USER=your_mysql_username
