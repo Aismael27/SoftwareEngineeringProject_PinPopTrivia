@@ -1,4 +1,3 @@
-DROP DATABASE pinpop;
 CREATE DATABASE pinpop;
 USE pinpop;
 

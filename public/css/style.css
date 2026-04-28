@@ -224,6 +224,7 @@ select {
     justify-content: center;
     display: flex;
     align-items: center;
+    margin-top: 50px;
 }
 .quiz_text {
     border-radius: 5px;

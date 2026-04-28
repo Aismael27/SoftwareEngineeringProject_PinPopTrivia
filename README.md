@@ -14,6 +14,7 @@ cd SoftwareEngineeringProject_PinPopTrivia.git
 ```npm install express-session```
 
 3. Setup database
+Must be version '8.0.45'
 ```mysql -u root -p < MySQLScript.sql```
 
 4. Modify .env 
@@ -31,19 +32,45 @@ DATABASE_NAME=recipe_db
 
 
 ## Navigation
-- /sql -- Contains the SQL code for the database
-- /data -- Contains the actual 
-- home.html -- Main page
-- login.html -- Log in page 
-- theme.css -- Main theme for all pages
+```
+.env                                                                                                                                                                      
+.gitignore                                                                                                                                                                
+app.js                                                                                                                                                                    
+database.js                                                                                                                                                               
+MySQLScript.sql                                                                                                                                                           
+package-lock.json                                                                                                                                                         
+package.json                                                                                                                                                              
+README.md 
+public
+├───css
+│   │   Limelight.zip
+│   │   Special_Elite.zip
+│   │   style.css
+│   └───images
+│           catError.webp
+│           map.jpg
+│           Reel.png
+│           trinity.jpg
+└───js 
+    └───quizjs.js
+views
+├───pages
+│   │   adminDashboard.ejs
+│   │   cityPage.ejs
+│   │   freeplay.ejs
+│   │   home.ejs
+│   │   leaderboard.ejs
+│   │   login.ejs
+│   │   profile.ejs
+│   │   quiz.ejs
+│   │   register.ejs
+│   │   suggest.ejs
+│   └───admin
+│           questionManagement.ejs
+│           userManagement.ejs   
+└───partials
+    └───header.ejs
+```
+## Report and training materials
+https://docs.google.com/document/d/1CDm5iZLaVxwRltGzDQfHzYI6sTrlDTzgvcLXogkLGW0/edit?tab=t.0
 
-## Database schema
-<img width="758" height="767" alt="image" src="https://github.com/user-attachments/assets/b4769f73-1742-416f-8102-208af19d72da" />
-
-
-## Tech stack
-- MySQL
-- HTML
-- JSON
-- CSS
-- JavaScript

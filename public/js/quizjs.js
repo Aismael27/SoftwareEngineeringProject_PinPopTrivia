@@ -43,6 +43,7 @@ function clicked (element, char){
     clearTimeout();
     if(char !== document.getElementById('answer').textContent){
         element.style.backgroundColor = "#81231e";
+        element.style.color = "white";
         if (gamemode = 'f'){
             isQuizOver = true;
         }
