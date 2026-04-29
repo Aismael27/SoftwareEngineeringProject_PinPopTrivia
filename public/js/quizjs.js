@@ -81,7 +81,10 @@ function questionReset(){
 }
 function quizEnd() {
     document.getElementById('head').style.display = "none";
-    document.getElementById('body').style.display = "none";
+    document.getElementById('A').style.display = "none";
+    document.getElementById('B').style.display = "none";
+    document.getElementById('C').style.display = "none";
+    document.getElementById('D').style.display = "none";
     document.getElementById('next').style.display = "none";
     document.getElementById('end').style.display = "flex";
     document.getElementById('score').style.display = "flex";
