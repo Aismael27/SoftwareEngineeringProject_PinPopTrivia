@@ -91,7 +91,7 @@ function quizEnd() {
     document.getElementById('qc').style.display = "flex";
     document.getElementById('score').innerHTML = totalScore;
     document.getElementById('qc').innerHTML = questCount;
-    if(req.session.user) {
+    if(getRole !== "guest") {
         fetch('/quiz', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -109,7 +109,7 @@ function quizEnd() {
         .catch(error => {
             console.error('Error during submission:', error);
             alert('An error occurred. Please try again later.');
-         });
+        });
     }
 }
 function next(){
