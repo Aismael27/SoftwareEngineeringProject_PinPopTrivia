@@ -1,7 +1,6 @@
-var isQuizOver = false;
+var questRight = false;
 var totalScore = 0;
 var questScore = 3000;
-var gamemode = 's';
 var questCount = 0;
 var q;
 var timer;
@@ -63,34 +62,24 @@ function clicked(element, char) {
     if (char !== document.getElementById('answer').textContent) {
         element.style.backgroundColor = "#81231e";
         element.style.color = "white";
-        if (gamemode === 'f') {
-            isQuizOver = true;
-        }
     } else {
         element.style.backgroundColor = "#70683b";
         totalScore = totalScore + questScore;
+        questRight = true;
     }
     questCount = questCount + 1;
-    if ((gamemode === 's') && questCount > 4) {
-        isQuizOver = true;
-    }
     questionEnd();
 }
 
 function lostTime() {
     clearInterval(interval);
     questCount = questCount + 1;
-    if ((gamemode === 's') && questCount > 4) {
-        isQuizOver = true;
-    }
-    if (gamemode === 'f') {
-        isQuizOver = true;
-    }
     questionEnd();
 }
 
 function questionReset() {
     questScore = 3000;
+    questRight = false;
     document.getElementById('A').style.backgroundColor = "#e7e1d8";
     document.getElementById('B').style.backgroundColor = "#e7e1d8";
     document.getElementById('C').style.backgroundColor = "#e7e1d8";
@@ -115,31 +104,40 @@ function quizEnd() {
     document.getElementById('qc').style.display = "flex";
     document.getElementById('score').innerHTML = totalScore;
     document.getElementById('qc').innerHTML = questCount;
-
-    fetch('/quiz', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ totalScore }),
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            alert('Quiz submitted successfully!');
-            window.location.href = '/';
-        } else {
-            alert('Submission failed: ' + data.message);
-        }
-    })
-    .catch(error => {
-        document.getElementById('question').textContent = 'Submission error: ' + error.message;
-    });
+    if(user){
+        fetch('/quiz', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ totalScore }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Quiz submitted successfully!');
+                window.location.href = '/';
+            } else {
+                alert('Submission failed: ' + data.message);
+            }
+        })
+        .catch(error => {
+            document.getElementById('question').textContent = 'Submission error: ' + error.message;
+        });
+    }
 }
 
-function next() {
-    if (isQuizOver) {
-        quizEnd();
+function next(mode) {
+    if (mode === 's') {
+        if (questCount > 4){
+            quizEnd(); 
+        } else {
+            questionReset();
+        }
     } else {
-        questionReset();
+        if (!questRight) {
+            quizEnd();
+        } else {
+            questionReset();
+        }
     }
 }
 
