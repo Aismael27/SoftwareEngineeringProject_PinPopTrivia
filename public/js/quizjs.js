@@ -91,24 +91,26 @@ function quizEnd() {
     document.getElementById('qc').style.display = "flex";
     document.getElementById('score').innerHTML = totalScore;
     document.getElementById('qc').innerHTML = questCount;
-    fetch('/quiz', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({totalScore}),
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            alert('Quiz submitted successfully!');
-            window.location.href = '/';
-        } else {
-            alert('Submission failed: ' + data.message);
-        }
-     })
-    .catch(error => {
-        console.error('Error during submission:', error);
-        alert('An error occurred. Please try again later.');
-    });
+    if(req.session.user) {
+        fetch('/quiz', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({totalScore}),
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Quiz submitted successfully!');
+                window.location.href = '/';
+            } else {
+                alert('Submission failed: ' + data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error during submission:', error);
+            alert('An error occurred. Please try again later.');
+         });
+    }
 }
 function next(){
     if (isQuizOver){
