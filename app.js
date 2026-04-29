@@ -133,10 +133,13 @@ app.get('/register', (req, res) => {
 
 app.post('/register', (req, res) => {
     const { username, email, password } = req.body;
-    connection.query('SELECT * FROM player WHERE email = ?', [email], (err, results) => {
+    connection.query('SELECT * FROM player WHERE email = ? OR username = ?', [email, username], (err, results) => {
         if (err) return res.status(500).json({ success: false, message: 'Database error' });
         if (results.length > 0) {
-            return res.json({ success: false, message: 'User already exists' });
+            const emailTaken = results.some(r => r.email === email);
+            const usernameTaken = results.some(r => r.username === username);    
+            if (emailTaken) return res.json({ success: false, message: 'Email already in use' });
+            if (usernameTaken) return res.json({ success: false, message: 'Username already taken' });
         }
         connection.query('INSERT INTO player (username, email, password) VALUES (?, ?, ?)', [username, email, password], (err, result) => {
             if (err) return res.status(500).json({ success: false, message: 'Database error' });
@@ -150,22 +153,18 @@ app.get('/quiz', (req, res) => {
     res.render('pages/quiz');
 });
 app.post('/quiz', (req, res) => {
-    const role = getRole(req)
-    if (role !== 'guest') {
-
-        const {score} = req.body;
-        const player = req.session.user.player_id;
-        const quizType = 'short';
+    const {score} = req.body;
+    const player = req.session.user.player_id;
+    const quizType = 'short';
 
 
-        connection.query(
-            'INSERT INTO quiz (player_id, quiz_type, score) VALUES (?, ?, ?)', [player, quizType, score],
-            (err) => {
-                if (err) return res.status(500).json({ success: false, message: 'Database error' });
-                return res.json({ success: true, message: 'Question suggestion submitted successfully' });
-            });
-        }
-        return res.json({ success: true, message: 'Guest user, no data submitted.' });
+    connection.query(
+        'INSERT INTO quiz (player_id, quiz_type, score) VALUES (?, ?, ?)', [player, quizType, score],
+        (err) => {
+            if (err) return res.status(500).json({ success: false, message: 'Database error' });
+            return res.json({ success: true, message: 'Question suggestion submitted successfully' });
+        });
+    return res.json({ success: true, message: 'Guest user, no data submitted.' });
 });
 
 app.get('/api/question', (req, res) => {
