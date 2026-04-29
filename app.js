@@ -133,10 +133,13 @@ app.get('/register', (req, res) => {
 
 app.post('/register', (req, res) => {
     const { username, email, password } = req.body;
-    connection.query('SELECT * FROM player WHERE email = ?', [email], (err, results) => {
+    connection.query('SELECT * FROM player WHERE email = ? OR username = ?', [email, username], (err, results) => {
         if (err) return res.status(500).json({ success: false, message: 'Database error' });
         if (results.length > 0) {
-            return res.json({ success: false, message: 'User already exists' });
+            const emailTaken = results.some(r => r.email === email);
+            const usernameTaken = results.some(r => r.username === username);    
+            if (emailTaken) return res.json({ success: false, message: 'Email already in use' });
+            if (usernameTaken) return res.json({ success: false, message: 'Username already taken' });
         }
         connection.query('INSERT INTO player (username, email, password) VALUES (?, ?, ?)', [username, email, password], (err, result) => {
             if (err) return res.status(500).json({ success: false, message: 'Database error' });
