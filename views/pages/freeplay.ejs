@@ -3,138 +3,49 @@
     <head>
         <title> Quizzes </title>
         <link rel="stylesheet" type="text/css" href="/css/style.css"/>
-        <script src="js/quizjs.js"></script>
+        <script src="/js/quizjs.js" defer></script>
         <link href="https://fonts.googleapis.com/css2?family=Special+Elite&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Limelight&family=Special+Elite&display=swap" rel="stylesheet">
     </head>
     <body>
         <%- include('../partials/header.ejs') %>
         <div id="answer"></div>
-        <div class="quiz_head">
+        <div id="mediatype" data-value="<%= mediatype %>"></div>
+        <div id="region" data-value="<%= region %>"></div>
+        <div class="quiz_head" id = "head">
             <div>
                 <img src="/css/images/Reel.png" alt="camera" width="75" height="60">
             </div>
             <div class="quiz_text" id="question"></div>
         </div>
-        <div class="quiz_body">
+        <div class="quiz_body" >
             <div class="quiz_answer" id="A" onclick="clicked(this, 'A')"></div>
         </div> 
-        <div class="quiz_body">
+        <div class="quiz_body" >
             <div class="quiz_answer" id="B" onclick="clicked(this, 'B')"></div>
         </div> 
-        <div class="quiz_body">
+        <div class="quiz_body" >
             <div class="quiz_answer" id="C" onclick="clicked(this, 'C')"></div>
         </div> 
-        <div class="quiz_body">
+        <div class="quiz_body" >
             <div class="quiz_answer"  id="D" onclick="clicked(this, 'D')"></div>
         </div> 
-        <div class="next" id ="next">
-            <div class="nextButton" onclick="next()"> Next </div>
+        <div class="next" id = "next">
+            <div id="nextButton" onclick="next('f')"> Next </div>
         </div> 
-        <div class="scoreText">Score: </div>
+        <div class="scoreText" id = "end">Score: </div>
         <div class ="scoreText" id = "score"></div>
-        <div class ="scoreText">Questions answered:</div>
+        <div class ="scoreText" id = "end">Questions answered:</div>
         <div class ="scoreText" id = "qc"></div>
-        <script defer>
-            window.onload = function(){
-                const quizEnd = false;
-                const totalScore = 0;
-                const questScore = 3000;
-                const gamemode = 'f'; // change to 'f' for freeplay mode
-                setTimeout(lostTime(), 30000)
-                setInterval(updater(), 10)
-                const questCount = 0; 
-            }
-            function updater(){
-                questscore = questScore - 1;
-            }
-            function clicked (element, char){
-                clearInterval();
-                clearTimeout();
-                if(char !== document.getElementById('answer').textContent){
-                    element.style.backgroundColor = "#81231e";
-                    if (gamemode = 'f'){
-                        quizEnd = true;
-                    }
-                } else {
-                    totalScore = totalScore + questScore;
-                }
-                questCount = questCount+1;
-                if ((gamemode === 's') && questCount > 4){
-                    quizEnd = true;
-                }
-                questCount = questCount+1;
-                questionEnd();
-            }
-            function lostTime(){
-                clearInterval();
-                questCount + 1;
-                if((gamemode ==='s') && questCount > 4){
-                    quizEnd = true;
-                }
-                if((gamemode === 'f')){
-                    quizEnd = true;
-                }
-                questionEnd();
-            }
-            function questionEnd(){
-                if (document.getElementById('answer').textContent === 'A'){
-                    document.getElementById("A").backgroundColor = "#70683b";
-                } else if (document.getElementById('answer').textContent === 'B'){
-                    document.getElementById("B").backgroundColor = "#70683b";
-                } else if (document.getElementById('answer').textContent === 'C'){
-                    document.getElementById("C").backgroundColor = "#70683b";
-                }else {
-                    document.getElementById("D").backgroundColor = "#70683b";
-                } // reveals the Correct answer
-                document.getElementById("next").display = "flex";
-                // reveals next button
-            }
-            function next(){
-                if (quizEnd === true){
-                    quizEnd();
-                }
-                else{
-                    questionReset();
-                }
-            }
-            function questionReset(){
-                loadQuestion();
-                setInterval(updater(), 10)
-                setTimeout(lostTime(), 30000);
-                questScore = 3000;
-                document.getElementById("A").backgroundColor = "#e7e1d8";
-                document.getElementById("B").backgroundColor = "#e7e1d8";
-                document.getElementById("C").backgroundColor = "#e7e1d8";
-                document.getElementById("D").backgroundColor = "#e7e1d8";
-                document.getElementById("next").display = "none";
-            }
-            function quizEnd (){
-                document.quiz_head.display = "none";
-                document.quiz_body.display = "none";
-                document.next.display = "none";
-                document.scoreText.display = "flex";
-                document.getElementById("score").innerHTML = totalScore;
-                document.getElementById("qc").innerHTML = questCount;
-                fetch('/quiz', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({totalScore}),
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        alert('Quiz submitted successfully!');
-                        window.location.href = '/';
-                    } else {
-                        alert('Submission failed: ' + data.message);
-                    }
-                 })
-                .catch(error => {
-                    console.error('Error during submission:', error);
-                    alert('An error occurred. Please try again later.');
-                });
-            }
-        </script>
+    
+    <script>
+        const mediatype = '<%= mediatype %>';
+        const region = '<%= region %>';
+
+        window.onload = function() {
+            loadQuestion(mediatype, region);
+        }
+    </script>
+
     </body>
 </html>
