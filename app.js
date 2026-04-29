@@ -39,7 +39,7 @@ app.get('/freeplay', (req, res) => {
     res.render('pages/freeplay');
 });
 app.get('/leaderboard', (req, res) => {
-    connection.query('SELECT username, freeplay_score FROM player ORDER BY freeplay_score DESC LIMIT 10', (err, users) => {
+    connection.query('SELECT username, freeplay_score FROM player ORDER BY freeplay_score DESC LIMIT 25', (err, users) => {
         if (err) {
             console.log(err);
             return res.status(500).send('Database error');
