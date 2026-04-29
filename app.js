@@ -170,9 +170,8 @@ app.get('/quiz/mediatype/:mediatype', (req, res) => {
     res.render('pages/quiz', { mediatype , region: null });
 });
 app.post('/quiz', (req, res) => {
-    const {score} = req.body;
+    const {score, quizType} = req.body;
     const player = req.session.user.player_id;
-    const quizType = 'short';
 
 
     connection.query(
@@ -182,6 +181,32 @@ app.post('/quiz', (req, res) => {
             return res.json({ success: true, message: 'Question suggestion submitted successfully' });
         });
     return res.json({ success: true, message: 'Guest user, no data submitted.' });
+});
+
+app.post('/quiz/freeplay', (req, res) => {
+    
+    const { score } = req.body;
+    connection.query(
+        'UPDATE player SET freeplay_score = ?, WHERE user_id = ?',
+        [score, req.session.user.player_id],
+        (err) => {
+            if (err) return res.json({ success: false });
+            res.json({ success: true });
+        }
+    );
+});
+
+app.post('/quiz/bite', (req, res) => {
+    
+    const { score } = req.body;
+    connection.query(
+        'UPDATE player SET bite_highscore = ?, WHERE user_id = ?',
+        [score, req.session.user.player_id],
+        (err) => {
+            if (err) return res.json({ success: false });
+            res.json({ success: true });
+        }
+    );
 });
 app.get('/api/question', (req, res) => {
     let sql = `SELECT * FROM questions ORDER BY RAND() LIMIT 1;`;

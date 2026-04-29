@@ -92,7 +92,7 @@ function questionReset() {
     loadQuestion();
 }
 
-function quizEnd() {
+function quizEnd(mode) {
     document.getElementById('head').style.display = "none";
     document.getElementById('A').style.display = "none";
     document.getElementById('B').style.display = "none";
@@ -108,7 +108,7 @@ function quizEnd() {
         fetch('/quiz', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ totalScore }),
+            body: JSON.stringify({ totalScore, mode }),
         })
         .then(response => response.json())
         .then(data => {
@@ -122,19 +122,60 @@ function quizEnd() {
         .catch(error => {
             document.getElementById('question').textContent = 'Submission error: ' + error.message;
         });
+        if(mode === 'short'){
+            if(user.bite_highscore< totalScore){
+                fetch('/quiz/bite', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ totalScore }),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Score saved successfully!');
+                        window.location.href = '/';
+                    } else {
+                        alert('Submission failed: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    document.getElementById('question').textContent = 'Submission error: ' + error.message;
+                });
+            }
+        } else {
+            if (user.freeplay_score < totalScore){
+                fetch('/quiz/freeplay', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ totalScore, mode }),
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Score saved successfully!');
+                        window.location.href = '/';
+                    } else {
+                        alert('Submission failed: ' + data.message);
+                    }
+                })
+                .catch(error => {
+                    document.getElementById('question').textContent = 'Submission error: ' + error.message;
+                });
+            }
+        }
     }
 }
 
 function next(mode) {
     if (mode === 's') {
         if (questCount > 4){
-            quizEnd(); 
+            quizEnd('short'); 
         } else {
             questionReset();
         }
     } else {
         if (!questRight) {
-            quizEnd();
+            quizEnd('freeplay');
         } else {
             questionReset();
         }
