@@ -36,7 +36,7 @@ app.get('/', (req, res) => {
     }
 });
 app.get('/freeplay', (req, res) => {
-    res.render('pages/freeplay');
+    res.render('pages/freeplay', { mediatype: null, region: null });
 });
 app.get('/leaderboard', (req, res) => {
     connection.query('SELECT username, freeplay_score FROM player ORDER BY freeplay_score DESC LIMIT 25', (err, users) => {
