@@ -1,3 +1,4 @@
+DROP DATABASE pinpop;
 CREATE DATABASE pinpop;
 USE pinpop;
 
@@ -16,6 +17,7 @@ CREATE TABLE IF NOT EXISTS player (
     email			VARCHAR(50) NOT NULL UNIQUE,
     password		VARCHAR(50) NOT NULL,
     date_join		DATE NOT NULL DEFAULT (CURRENT_DATE),
+    bite_highscore	INT NOT NULL DEFAULT 0,
     freeplay_score	INT NOT NULL DEFAULT 0,
     is_deleted		BOOLEAN NOT NULL DEFAULT FALSE,
     PRIMARY KEY (player_id)

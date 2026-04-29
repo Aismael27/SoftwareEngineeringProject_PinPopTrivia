@@ -11,11 +11,13 @@
                 <div class = "twoColumns">
                     <div class = "largeCol"> 
                         <div class = "contentBox"> 
-                            <p class = "bdyHead"> <b><u> Hi <%= user.username %>!</u></b> <br> <br> Welcome to your profile page. <br></p> 
+                            <p class = "bdyHead"> <b><u> Hi <%= player.username %>!</u></b> <br> <br> Welcome to your profile page. <br></p> 
                             <ul class = "bdyTxt"> 
-                                <p class = "bdyTxt"> <b>Your current points:</b> <%= user.points %> </p>
-                                <p class = "bdyTxt"> <b>Your current freeplay score:</b> <%= user.freeplay_score %> </p>
-                                <p class="bdyTxt"><b>Your email:</b> <%= user.email %></p>
+                                <br>
+                                <p class = "bdyTxt"> <b>Your bite-size quiz highscore:</b> <%= player.points %> </p>
+                                <p class = "bdyTxt"> <b>Your current freeplay score:</b> <%= player.freeplay_score %> </p>
+                                <br>
+                                <p class="bdyTxt"><b>Your email:</b> <%= player.email %></p>
                             </ul>
                         </div>
                     </div>

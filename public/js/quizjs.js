@@ -1,84 +1,108 @@
 var isQuizOver = false;
 var totalScore = 0;
 var questScore = 3000;
-var gamemode = 's'; // change to 'f' for freeplay mode
-setTimeout(lostTime(), 30000)
-setInterval(updater(), 10)
-var questCount = 0; 
+var gamemode = 's';
+var questCount = 0;
+var q;
+var timer;
+var interval;
 
 function loadQuestion() {
-    fetch('/api/question')
+    const mediatype = document.getElementById('mediatype')?.dataset.value || null;
+    const region = document.getElementById('region')?.dataset.value || null;
+
+    let url;
+    if (mediatype) {
+        url = `/api/question/media/${mediatype}`;
+    } else if (region) {
+        url = `/api/question/region/${region}`;
+    } else {
+        url = '/api/question';
+    }
+
+    fetch(url)
         .then(res => res.json())
         .then(data => {
-            const q = data.question;
-            
+            q = data.question;
             document.getElementById('question').textContent = q.question;
             document.getElementById('A').textContent = q.option_a;
             document.getElementById('B').textContent = q.option_b;
             document.getElementById('C').textContent = q.option_c;
             document.getElementById('D').textContent = q.option_d;
             document.getElementById('answer').textContent = q.answer;
-        }
-    );
+
+            interval = setInterval(updater, 10);
+            timer = setTimeout(lostTime, 30000);
+        })
+        .catch(err => {
+            document.getElementById('question').textContent = 'Failed to load question: ' + err.message;
+        });
 }
-function updater(){
+
+function updater() {
     questScore = questScore - 1;
 }
-function questionEnd(){
+
+function questionEnd() {
     const answer = document.getElementById('answer').textContent;
-    if (answer == 'A'){
+    if (answer == 'A') {
         document.getElementById('A').style.backgroundColor = "#70683b";
-    } else if (answer == 'B'){
+    } else if (answer == 'B') {
         document.getElementById('B').style.backgroundColor = "#70683b";
-    } else if (answer == 'C'){
+    } else if (answer == 'C') {
         document.getElementById('C').style.backgroundColor = "#70683b";
     } else if (answer == 'D') {
         document.getElementById('D').style.backgroundColor = "#70683b";
-    } // reveals the Correct answer
+    }
     document.getElementById('nextButton').style.display = "flex";
-    // reveals next button
 }
-function clicked (element, char){
-    clearInterval();
-    clearTimeout();
-    if(char !== document.getElementById('answer').textContent){
+
+function clicked(element, char) {
+    clearInterval(interval);
+    clearTimeout(timer);
+    if (char !== document.getElementById('answer').textContent) {
         element.style.backgroundColor = "#81231e";
         element.style.color = "white";
-        if (gamemode = 'f'){
+        if (gamemode === 'f') {
             isQuizOver = true;
         }
     } else {
+        element.style.backgroundColor = "#70683b";
         totalScore = totalScore + questScore;
     }
-    questCount = questCount+1;
-    if ((gamemode === 's') && questCount > 4){
+    questCount = questCount + 1;
+    if ((gamemode === 's') && questCount > 4) {
         isQuizOver = true;
     }
     questionEnd();
 }
-function lostTime(){
-    clearInterval();
-    questCount + 1;
-    if((gamemode ==='s') && questCount > 4){
+
+function lostTime() {
+    clearInterval(interval);
+    questCount = questCount + 1;
+    if ((gamemode === 's') && questCount > 4) {
         isQuizOver = true;
-        questionEnd();
     }
-    if((gamemode === 'f')){
+    if (gamemode === 'f') {
         isQuizOver = true;
-        questionEnd();
     }
+    questionEnd();
 }
-function questionReset(){
-    loadQuestion();
-    setInterval(updater(), 10)
-    setTimeout(lostTime(), 30000);
+
+function questionReset() {
     questScore = 3000;
     document.getElementById('A').style.backgroundColor = "#e7e1d8";
     document.getElementById('B').style.backgroundColor = "#e7e1d8";
     document.getElementById('C').style.backgroundColor = "#e7e1d8";
     document.getElementById('D').style.backgroundColor = "#e7e1d8";
+    document.getElementById('A').style.color = "";
+    document.getElementById('B').style.color = "";
+    document.getElementById('C').style.color = "";
+    document.getElementById('D').style.color = "";
     document.getElementById('nextButton').style.display = "none";
+    loadQuestion();
 }
+
 function quizEnd() {
     document.getElementById('head').style.display = "none";
     document.getElementById('A').style.display = "none";
@@ -91,33 +115,32 @@ function quizEnd() {
     document.getElementById('qc').style.display = "flex";
     document.getElementById('score').innerHTML = totalScore;
     document.getElementById('qc').innerHTML = questCount;
-    if(user) {
-        fetch('/quiz', {
+
+    fetch('/quiz', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({totalScore}),
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                alert('Quiz submitted successfully!');
-                window.location.href = '/';
-            } else {
-                alert('Submission failed: ' + data.message);
-            }
-        })
-        .catch(error => {
-            console.error('Error during submission:', error);
-            alert('An error occurred. Please try again later.');
-        });
-    }
+        body: JSON.stringify({ totalScore }),
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert('Quiz submitted successfully!');
+            window.location.href = '/';
+        } else {
+            alert('Submission failed: ' + data.message);
+        }
+    })
+    .catch(error => {
+        document.getElementById('question').textContent = 'Submission error: ' + error.message;
+    });
 }
-function next(){
-    if (isQuizOver){
+
+function next() {
+    if (isQuizOver) {
         quizEnd();
-    }
-    else{
+    } else {
         questionReset();
     }
 }
+
 document.addEventListener('DOMContentLoaded', loadQuestion);
