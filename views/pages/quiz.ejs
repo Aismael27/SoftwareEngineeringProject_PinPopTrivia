@@ -10,30 +10,30 @@
     <body>
         <%- include('../partials/header.ejs') %>
         <div id="answer"></div>
-        <div class="quiz_head">
+        <div class="quiz_head" id = "head">
             <div>
                 <img src="/css/images/Reel.png" alt="camera" width="75" height="60">
             </div>
             <div class="quiz_text" id="question"></div>
         </div>
-        <div class="quiz_body">
+        <div class="quiz_body" id = "body">
             <div class="quiz_answer" id="A" onclick="clicked(this, 'A')"></div>
         </div> 
-        <div class="quiz_body">
+        <div class="quiz_body" id = "body">
             <div class="quiz_answer" id="B" onclick="clicked(this, 'B')"></div>
         </div> 
-        <div class="quiz_body">
+        <div class="quiz_body" id = "body ">
             <div class="quiz_answer" id="C" onclick="clicked(this, 'C')"></div>
         </div> 
-        <div class="quiz_body">
+        <div class="quiz_body" id = "body">
             <div class="quiz_answer"  id="D" onclick="clicked(this, 'D')"></div>
         </div> 
-        <div class="next">
+        <div class="next" id = "next">
             <div id="nextButton" onclick="next()"> Next </div>
         </div> 
-        <div class="scoreText">Score: </div>
+        <div class="scoreText" id = "end">Score: </div>
         <div class ="scoreText" id = "score"></div>
-        <div class ="scoreText">Questions answered:</div>
+        <div class ="scoreText" id = "end">Questions answered:</div>
         <div class ="scoreText" id = "qc"></div>
     </body>
 </html>

@@ -22,7 +22,7 @@ function loadQuestion() {
     );
 }
 function updater(){
-    questscore = questScore - 1;
+    questScore = questScore - 1;
 }
 function questionEnd(){
     const answer = document.getElementById('answer').textContent;
@@ -80,12 +80,14 @@ function questionReset(){
     document.getElementById('nextButton').style.display = "none";
 }
 function quizEnd() {
-    document.getElementsByClassName("quiz_head").style.display = "none";
-    document.getElementsByClassName("quiz_body").style.display = "none";
-    document.getElementsByClassName("next").style.display = "none";
-    document.getElementsByClassName("scoreText").style.display = "flex";
-    document.getElementById("score").innerHTML = totalScore;
-    document.getElementById("qc").innerHTML = questCount;
+    document.getElementsById('head').style.display = "none";
+    document.getElementsById('body').style.display = "none";
+    document.getElementsById('next').style.display = "none";
+    document.getElementsById('end').style.display = "flex";
+    document.getElementsById('score').style.display = "flex";
+    document.getElementsById('qc').style.display = "flex";
+    document.getElementById('score').innerHTML = totalScore;
+    document.getElementById('qc').innerHTML = questCount;
     fetch('/quiz', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
