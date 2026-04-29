@@ -170,31 +170,18 @@ app.get('/quiz/mediatype/:mediatype', (req, res) => {
     res.render('pages/quiz', { mediatype , region: null });
 });
 app.post('/quiz', (req, res) => {
-    const role = getRole(req);
-    if (role !== 'guest') {
-        const { totalScore } = req.body;
-        const email = req.session.user.email;
-        const quizType = 'short';
+    const {score} = req.body;
+    const player = req.session.user.player_id;
+    const quizType = 'short';
 
-        connection.query(
-            'INSERT INTO quiz (player_id, quiz_type, score) VALUES ((SELECT player_id FROM player WHERE email = ?), ?, ?)',
-            [email, quizType, totalScore],
-            (err) => {
-                if (err) return res.status(500).json({ success: false, message: 'Database error' });
 
-                connection.query(
-                    'UPDATE player SET bite_highscore = ? WHERE email = ? AND bite_highscore < ?',
-                    [totalScore, email, totalScore],
-                    (err) => {
-                        if (err) return res.status(500).json({ success: false, message: 'Database error' });
-                        return res.json({ success: true, message: 'Quiz submitted successfully' });
-                    }
-                );
-            }
-        );
-    } else {
-        return res.json({ success: true, message: 'Guest user, no data submitted.' });
-    }
+    connection.query(
+        'INSERT INTO quiz (player_id, quiz_type, score) VALUES (?, ?, ?)', [player, quizType, score],
+        (err) => {
+            if (err) return res.status(500).json({ success: false, message: 'Database error' });
+            return res.json({ success: true, message: 'Question suggestion submitted successfully' });
+        });
+    return res.json({ success: true, message: 'Guest user, no data submitted.' });
 });
 app.get('/api/question', (req, res) => {
     let sql = `SELECT * FROM questions ORDER BY RAND() LIMIT 1;`;
