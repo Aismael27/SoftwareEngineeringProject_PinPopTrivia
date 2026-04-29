@@ -153,22 +153,18 @@ app.get('/quiz', (req, res) => {
     res.render('pages/quiz');
 });
 app.post('/quiz', (req, res) => {
-    const role = getRole(req)
-    if (role !== 'guest') {
-
-        const {score} = req.body;
-        const player = req.session.user.player_id;
-        const quizType = 'short';
+    const {score} = req.body;
+    const player = req.session.user.player_id;
+    const quizType = 'short';
 
 
-        connection.query(
-            'INSERT INTO quiz (player_id, quiz_type, score) VALUES (?, ?, ?)', [player, quizType, score],
-            (err) => {
-                if (err) return res.status(500).json({ success: false, message: 'Database error' });
-                return res.json({ success: true, message: 'Question suggestion submitted successfully' });
-            });
-        }
-        return res.json({ success: true, message: 'Guest user, no data submitted.' });
+    connection.query(
+        'INSERT INTO quiz (player_id, quiz_type, score) VALUES (?, ?, ?)', [player, quizType, score],
+        (err) => {
+            if (err) return res.status(500).json({ success: false, message: 'Database error' });
+            return res.json({ success: true, message: 'Question suggestion submitted successfully' });
+        });
+    return res.json({ success: true, message: 'Guest user, no data submitted.' });
 });
 
 app.get('/api/question', (req, res) => {
