@@ -179,7 +179,7 @@ app.post('/quiz/freeplay', (req, res) => {
     const { score } = req.body;
     const email = req.session.user.email;
     connection.query(
-        'UPDATE player SET freeplay_score = ? WHERE email = ?',
+        'UPDATE player SET freeplay_score = ? WHERE email = ? AND bite_highscore < ?',
         [score, email],
         (err) => {
             if (err) return res.status(500).json({ success: false, message: 'Database error' });
