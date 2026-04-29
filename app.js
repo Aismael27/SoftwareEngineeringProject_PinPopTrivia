@@ -133,7 +133,6 @@ app.post('/adminDashboard/updateStatus', (req, res) => {
 app.get('/logout', (req, res) => {
     req.session.destroy();
     res.redirect('/login');
-    return res.json({ success: true, message: 'Logged out successfully' });
 });
 
 app.get('/register', (req, res) => {
@@ -159,52 +158,56 @@ app.post('/register', (req, res) => {
 });
 
 app.get('/quiz', (req, res) => {
-    res.render('pages/quiz', { mediatype: null, region: null });
+    res.render('pages/quiz', { mediatype: null, region: null, user: req.session.user || null });
 });
 app.get('/quiz/region/:region', (req, res) => {
     const region = req.params.region;
-    res.render('pages/quiz', { mediatype: null, region });
+    res.render('pages/quiz', { mediatype: null, region, user: req.session.user || null  });
 });
 app.get('/quiz/mediatype/:mediatype', (req, res) => {
     const mediatype = req.params.mediatype;
-    res.render('pages/quiz', { mediatype , region: null });
-});
-app.post('/quiz', (req, res) => {
-    const {score, quizType} = req.body;
-    const player = req.session.user.player_id;
-
-
-    connection.query(
-        'INSERT INTO quiz (player_id, quiz_type, score) VALUES (?, ?, ?)', [player, quizType, score],
-        (err) => {
-            if (err) return res.status(500).json({ success: false, message: 'Database error' });
-            return res.json({ success: true, message: 'Question suggestion submitted successfully' });
-        });
-    return res.json({ success: true, message: 'Guest user, no data submitted.' });
+    res.render('pages/quiz', { mediatype , region: null, user: req.session.user || null });
 });
 
 app.post('/quiz/freeplay', (req, res) => {
-    
     const { score } = req.body;
+    const email = req.session.user.email;
     connection.query(
-        'UPDATE player SET freeplay_score = ?, WHERE user_id = ?',
-        [score, req.session.user.player_id],
+        'UPDATE player SET freeplay_score = ? WHERE email = ?',
+        [score, email],
         (err) => {
-            if (err) return res.json({ success: false });
-            res.json({ success: true });
+            if (err) return res.status(500).json({ success: false, message: 'Database error' });
+            return res.json({ success: true });
         }
     );
 });
-
 app.post('/quiz/bite', (req, res) => {
-    
     const { score } = req.body;
+    const email = req.session.user.email;
     connection.query(
-        'UPDATE player SET bite_highscore = ?, WHERE user_id = ?',
-        [score, req.session.user.player_id],
+        'UPDATE player SET bite_highscore = ? WHERE email = ? AND bite_highscore < ?',
+        [score, email, score],
         (err) => {
-            if (err) return res.json({ success: false });
-            res.json({ success: true });
+            if (err) return res.status(500).json({ success: false, message: 'Database error' });
+            return res.json({ success: true });
+        }
+    );
+});
+app.post('/quiz', (req, res) => {
+    const role = getRole(req);
+    const { score, quizType } = req.body;
+
+    if (role === 'guest') {
+        return res.json({ success: true, message: 'Guest user, no data submitted.' });
+    }
+
+    const email = req.session.user.email;
+    connection.query(
+        'INSERT INTO quiz (player_id, quiz_type, score) VALUES ((SELECT player_id FROM player WHERE email = ?), ?, ?)',
+        [email, quizType, score],
+        (err) => {
+            if (err) return res.status(500).json({ success: false, message: 'Database error' });
+            return res.json({ success: true, message: 'Quiz submitted successfully' });
         }
     );
 });

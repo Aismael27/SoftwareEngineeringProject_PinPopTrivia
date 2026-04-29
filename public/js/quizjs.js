@@ -100,70 +100,39 @@ function quizEnd(mode) {
     document.getElementById('D').style.display = "none";
     document.getElementById('next').style.display = "none";
     document.getElementById('end').style.display = "flex";
+    document.getElementById('endQ').style.display = "flex";
     document.getElementById('score').style.display = "flex";
     document.getElementById('qc').style.display = "flex";
     document.getElementById('score').innerHTML = totalScore;
     document.getElementById('qc').innerHTML = questCount;
-    if(user){
-        fetch('/quiz', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ totalScore, mode }),
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                alert('Quiz submitted successfully!');
-                window.location.href = '/';
-            } else {
-                alert('Submission failed: ' + data.message);
-            }
-        })
-        .catch(error => {
-            document.getElementById('question').textContent = 'Submission error: ' + error.message;
-        });
-        if(mode === 'short'){
-            if(user.bite_highscore< totalScore){
-                fetch('/quiz/bite', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ totalScore }),
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        alert('Score saved successfully!');
-                        window.location.href = '/';
-                    } else {
-                        alert('Submission failed: ' + data.message);
-                    }
-                })
-                .catch(error => {
-                    document.getElementById('question').textContent = 'Submission error: ' + error.message;
-                });
-            }
+
+    const isLoggedIn = document.getElementById('isLoggedIn')?.dataset.value === 'true';
+    if (!isLoggedIn) return;
+
+    fetch('/quiz', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ score: totalScore, quizType: mode }),
+    });
+
+    const endpoint = mode === 'short' ? '/quiz/bite' : '/quiz/freeplay';
+    fetch(endpoint, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ score: totalScore }),
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            alert('Quiz submitted successfully!');
+            window.location.href = '/';
         } else {
-            if (user.freeplay_score < totalScore){
-                fetch('/quiz/freeplay', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ totalScore, mode }),
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        alert('Score saved successfully!');
-                        window.location.href = '/';
-                    } else {
-                        alert('Submission failed: ' + data.message);
-                    }
-                })
-                .catch(error => {
-                    document.getElementById('question').textContent = 'Submission error: ' + error.message;
-                });
-            }
+            alert('Submission failed: ' + data.message);
         }
-    }
+    })
+    .catch(error => {
+        document.getElementById('question').textContent = 'Submission error: ' + error.message;
+    });
 }
 
 function next(mode) {
