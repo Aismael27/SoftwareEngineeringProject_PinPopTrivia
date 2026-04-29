@@ -80,12 +80,12 @@ function questionReset(){
     document.getElementById('nextButton').style.display = "none";
 }
 function quizEnd() {
-    document.getElementsById('head').style.display = "none";
-    document.getElementsById('body').style.display = "none";
-    document.getElementsById('next').style.display = "none";
-    document.getElementsById('end').style.display = "flex";
-    document.getElementsById('score').style.display = "flex";
-    document.getElementsById('qc').style.display = "flex";
+    document.getElementById('head').style.display = "none";
+    document.getElementById('body').style.display = "none";
+    document.getElementById('next').style.display = "none";
+    document.getElementById('end').style.display = "flex";
+    document.getElementById('score').style.display = "flex";
+    document.getElementById('qc').style.display = "flex";
     document.getElementById('score').innerHTML = totalScore;
     document.getElementById('qc').innerHTML = questCount;
     fetch('/quiz', {
