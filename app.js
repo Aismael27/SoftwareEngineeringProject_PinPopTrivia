@@ -39,13 +39,19 @@ app.get('/freeplay', (req, res) => {
     res.render('pages/freeplay', { mediatype: null, region: null });
 });
 app.get('/leaderboard', (req, res) => {
-    connection.query('SELECT username, freeplay_score FROM player ORDER BY freeplay_score DESC LIMIT 25', (err, users) => {
-        if (err) {
-            console.log(err);
-            return res.status(500).send('Database error');
+    connection.query(
+        'SELECT username, bite_highscore FROM player WHERE is_deleted = FALSE ORDER BY bite_highscore DESC LIMIT 25',
+        (err, biteUsers) => {
+            if (err) return res.status(500).send('Database error');
+            connection.query(
+                'SELECT username, freeplay_score FROM player WHERE is_deleted = FALSE ORDER BY freeplay_score DESC LIMIT 25',
+                (err, freeplayUsers) => {
+                    if (err) return res.status(500).send('Database error');
+                    res.render('pages/leaderboard', { biteUsers, freeplayUsers });
+                }
+            );
         }
-        res.render('pages/leaderboard', { users });
-    });
+    );
 });
 app.get('/login', (req, res) => {
     res.render('pages/login');

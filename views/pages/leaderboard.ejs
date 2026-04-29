@@ -8,27 +8,51 @@
     </head>
     <body>
         <%- include('../partials/header.ejs') %>
-
-        <div class="contentBox">
-            <h2 class="bdyHead">Leaderboard</h2>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Rank</th>
-                        <th>Username</th>
-                        <th>Freeplay Score</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <% users.forEach(u => { %>
-                    <tr>
-                        <td><%= users.indexOf(u) + 1 %></td>
-                        <td><%= u.username %></td>
-                        <td><%= u.freeplay_score %></td>
-                    </tr>
-                    <% }) %>
-                </tbody>
-            </table>
+        <div class="twoColumns">
+            <div class="smallCol"> <div class="contentBox">
+                <h2 class="bdyHead">Bite-sized quiz</h2>
+                <h2 class="bdyHead"><b>Leaderboard</b></h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>Username</th>
+                            <th>Score</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% biteUsers.forEach((u, index) => { %>
+                        <tr>
+                            <td><%= index + 1 %></td>
+                            <td><%= u.username %></td>
+                            <td><%= u.bite_highscore %></td>
+                        </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            </div></div>
+            <div class="smallCol">  <div class="contentBox">
+                <h2 class="bdyHead">Freeplay quiz</h2>
+                <h2 class="bdyHead"><b>Leaderboard</b></h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>Username</th>
+                            <th>Score</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <% freeplayUsers.forEach((u, index) => { %>
+                        <tr>
+                            <td><%= index + 1 %></td>
+                            <td><%= u.username %></td>
+                            <td><%= u.freeplay_score %></td>
+                        </tr>
+                        <% }) %>
+                    </tbody>
+                </table>
+            </div> </div>
         </div>
     </body>
 </html>
