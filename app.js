@@ -78,8 +78,17 @@ function getRole(req) {
 app.get('/profile', (req, res) => {
     const role = getRole(req);
     if (role === 'guest') return res.redirect('/login');
-    res.render('pages/profile', { user: req.session.user });
+    const email = req.session.user.email;
+    connection.query(
+        'SELECT username, email, bite_highscore, freeplay_score FROM player WHERE email = ?',
+        [email],
+        (err, results) => {
+            if (err) return res.status(500).send('Database error');
+            res.render('pages/profile', { player: results[0] });
+        }
+    );
 });
+
 app.post('/profile/deleteAccount', (req, res) => {
     if (!req.session.user || req.session.user.role !== 'player') return res.status(403).json({ success: false });
     const { submission_id, status } = req.body;
@@ -150,33 +159,45 @@ app.post('/register', (req, res) => {
 });
 
 app.get('/quiz', (req, res) => {
-    res.render('pages/quiz');
+    res.render('pages/quiz', { mediatype: null, region: null });
+});
+app.get('/quiz/region/:region', (req, res) => {
+    const region = req.params.region;
+    res.render('pages/quiz', { mediatype: null, region });
+});
+app.get('/quiz/mediatype/:mediatype', (req, res) => {
+    const mediatype = req.params.mediatype;
+    res.render('pages/quiz', { mediatype , region: null });
 });
 app.post('/quiz', (req, res) => {
-    const role = getRole(req)
+    const role = getRole(req);
     if (role !== 'guest') {
-
-        const {score} = req.body;
-        const player = req.session.user.player_id;
+        const { totalScore } = req.body;
+        const email = req.session.user.email;
         const quizType = 'short';
 
-
         connection.query(
-            'INSERT INTO quiz (player_id, quiz_type, score) VALUES (?, ?, ?)', [player, quizType, score],
+            'INSERT INTO quiz (player_id, quiz_type, score) VALUES ((SELECT player_id FROM player WHERE email = ?), ?, ?)',
+            [email, quizType, totalScore],
             (err) => {
                 if (err) return res.status(500).json({ success: false, message: 'Database error' });
-                return res.json({ success: true, message: 'Question suggestion submitted successfully' });
-            });
-        }
-        return res.json({ success: true, message: 'Guest user, no data submitted.' });
-});
 
+                connection.query(
+                    'UPDATE player SET bite_highscore = ? WHERE email = ? AND bite_highscore < ?',
+                    [totalScore, email, totalScore],
+                    (err) => {
+                        if (err) return res.status(500).json({ success: false, message: 'Database error' });
+                        return res.json({ success: true, message: 'Quiz submitted successfully' });
+                    }
+                );
+            }
+        );
+    } else {
+        return res.json({ success: true, message: 'Guest user, no data submitted.' });
+    }
+});
 app.get('/api/question', (req, res) => {
-    let sql = 
-    `SELECT * 
-    FROM questions 
-    ORDER BY RAND()
-    LIMIT 1;`;
+    let sql = `SELECT * FROM questions ORDER BY RAND() LIMIT 1;`;
 
     connection.query(sql, (err, results) => {
         if (err) {
@@ -186,6 +207,59 @@ app.get('/api/question', (req, res) => {
 
         const q = results[0];
 
+        res.json({
+            success: true,
+            question: {
+                question: q.question,
+                option_a: q.option_a,
+                option_b: q.option_b,
+                option_c: q.option_c,
+                option_d: q.option_d,
+                answer: q.answer
+            }
+        });
+    });
+});
+app.get('/api/question/media/:mediatype', (req, res) => {
+    const mediatype = req.params.mediatype; 
+    let sql = `SELECT q.* FROM questions q JOIN media m ON q.media_id = m.media_id
+    WHERE m.media_type = ? ORDER BY RAND() LIMIT 1;`;
+
+    connection.query(sql, [mediatype], (err, results) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).json({ success: false });
+        }
+
+        if (results.length === 0) {
+            return res.status(404).json({ success: false, message: 'No questions found for this media type' });
+        }
+
+        const q = results[0];
+
+        res.json({
+            success: true,
+            question: {
+                question: q.question,
+                option_a: q.option_a,
+                option_b: q.option_b,
+                option_c: q.option_c,
+                option_d: q.option_d,
+                answer: q.answer
+            }
+        });
+    });
+});
+app.get('/api/question/region/:region', (req, res) => {
+    const region = req.params.region;
+    let sql =  `SELECT q.* FROM questions q JOIN location l ON q.location_id = l.location_id
+     WHERE l.region = ? ORDER BY RAND() LIMIT 1`;
+
+    connection.query(sql, [region], (err, results) => {
+        if (err) return res.status(500).json({ success: false });
+        if (results.length === 0) return res.status(404).json({ success: false, message: 'No questions found for this region' });
+
+        const q = results[0];
         res.json({
             success: true,
             question: {
@@ -226,10 +300,6 @@ app.post('/suggest', (req, res) => {
         }
     );
 });
-
-app.get('/profile', (req, res) => {
-    res.render('pages/profile');
-}); 
 
 app.get('/admin/questionManagement', (req, res) => {
     if (!req.session.user || req.session.user.role !== 'admin') return res.redirect('/');

@@ -3,13 +3,15 @@
     <head>
         <title> Quizzes </title>
         <link rel="stylesheet" type="text/css" href="/css/style.css"/>
-        <script src="js/quizjs.js" defer></script>
+        <script src="/js/quizjs.js" defer></script>
         <link href="https://fonts.googleapis.com/css2?family=Special+Elite&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css2?family=Limelight&family=Special+Elite&display=swap" rel="stylesheet">
     </head>
     <body>
         <%- include('../partials/header.ejs') %>
         <div id="answer"></div>
+        <div id="mediatype" data-value="<%= mediatype %>"></div>
+        <div id="region" data-value="<%= region %>"></div>
         <div class="quiz_head" id = "head">
             <div>
                 <img src="/css/images/Reel.png" alt="camera" width="75" height="60">
@@ -35,5 +37,15 @@
         <div class ="scoreText" id = "score"></div>
         <div class ="scoreText" id = "end">Questions answered:</div>
         <div class ="scoreText" id = "qc"></div>
+    
+    <script>
+        const mediatype = '<%= mediatype %>';
+        const region = '<%= region %>';
+
+        window.onload = function() {
+            loadQuestion(mediatype, region);
+        }
+    </script>
+
     </body>
 </html>
