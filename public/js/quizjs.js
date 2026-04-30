@@ -7,7 +7,7 @@ var timer;
 var interval;
 
 function loadQuestion() {
-    const mediatype = document.getElementById('mediatype')?.dataset.value || null;
+    const mediatype = document.getElementById('media_type')?.dataset.value || null;
     const region = document.getElementById('region')?.dataset.value || null;
 
     let url;

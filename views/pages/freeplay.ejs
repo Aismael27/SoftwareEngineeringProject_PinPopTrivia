@@ -9,9 +9,12 @@
     </head>
     <body>
         <%- include('../partials/header.ejs') %>
-        <div id="answer"></div>
+        <br>
+        <h1 class="bdyHead" style="font-size: 70px; text-align: center; margin-top: 30px;">Freeplay!</h1>
+        <div id="answer" style="display:none;"></div>
         <div id="mediatype" data-value="<%= mediatype %>"></div>
         <div id="region" data-value="<%= region %>"></div>
+        <div id="isLoggedIn" data-value="<%= user ? 'true' : 'false' %>"></div>
         <div class="quiz_head" id = "head">
             <div>
                 <img src="/css/images/Reel.png" alt="camera" width="75" height="60">
@@ -33,10 +36,15 @@
         <div class="next" id = "next">
             <div id="nextButton" onclick="next('f')"> Next </div>
         </div> 
-        <div class="scoreText" id = "end">Score: </div>
-        <div class ="scoreText" id = "score"></div>
-        <div class ="scoreText" id = "end">Questions answered:</div>
-        <div class ="scoreText" id = "qc"></div>
+        <div id="scorePopup" class="score-popup">
+            <div id="end"><b>Score:</b></div>
+            <div id="score"></div>
+            <div id="endQ"><b>Questions answered:</b></div>
+            <div id="qc"></div>
+            <br>
+            <button onclick="window.location.href = '/';" style="background-color: #D1b585; color: black; font-size: large;">Home</button>
+            <button onclick="window.location.href = '/freeplay';" style="background-color: #D1b585; color: black; font-size: large;">Play again!</button>
+        </div>
     
     <script>
         const mediatype = '<%= mediatype %>';

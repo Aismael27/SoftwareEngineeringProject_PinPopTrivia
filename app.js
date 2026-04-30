@@ -36,7 +36,7 @@ app.get('/', (req, res) => {
     }
 });
 app.get('/freeplay', (req, res) => {
-    res.render('pages/freeplay', { mediatype: null, region: null });
+    res.render('pages/freeplay', { mediatype: null, region: null, user: req.session.user || null });
 });
 app.get('/leaderboard', (req, res) => {
     connection.query(
