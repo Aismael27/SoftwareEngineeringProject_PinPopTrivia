@@ -100,12 +100,10 @@ function quizEnd(mode) {
     document.getElementById('C').style.display = "none";
     document.getElementById('D').style.display = "none";
     document.getElementById('next').style.display = "none";
-    document.getElementById('end').style.display = "flex";
-    document.getElementById('endQ').style.display = "flex";
-    document.getElementById('score').style.display = "flex";
-    document.getElementById('qc').style.display = "flex";
+    //for the scores at the end
     document.getElementById('score').innerHTML = totalScore;
     document.getElementById('qc').innerHTML = questCount;
+    document.getElementById('scorePopup').style.display = 'block';
 
     const isLoggedIn = document.getElementById('isLoggedIn')?.dataset.value === 'true';
     if (!isLoggedIn) return;
@@ -124,15 +122,12 @@ function quizEnd(mode) {
     })
     .then(response => response.json())
     .then(data => {
-        if (data.success) {
-            alert('Quiz submitted successfully!');
-            window.location.href = '/';
-        } else {
-            alert('Submission failed: ' + data.message);
+        if (!data.success) {
+            console.error('Submission failed: ' + data.message);
         }
     })
     .catch(error => {
-        document.getElementById('question').textContent = 'Submission error: ' + error.message;
+        console.error('Submission error: ' + error.message);
     });
 }
 

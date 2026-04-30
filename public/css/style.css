@@ -325,12 +325,6 @@ select {
     color: #042d29;
     background-color: #e7e1d8;
 }
-
-.scoreText {
-    color: #042d29;
-    font-family: Arial;
-    display: none;
-}
 .score-overlay {
     display: none;
     position: fixed;
@@ -345,13 +339,13 @@ select {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background: #fff;
-    border: 3px solid #333;
+    background: #3E0C15;
     border-radius: 12px;
     padding: 30px 40px;
     text-align: center;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    font-size: 25px;
     z-index: 1000;
+    color: white;
     font-family: 'Special Elite', cursive;
     min-width: 260px;
 }
