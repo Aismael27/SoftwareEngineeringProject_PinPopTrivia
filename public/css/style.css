@@ -15,6 +15,11 @@
     flex: 1;
 }
 
+.highlight {
+    background-color: #3E0C15;
+    color:#D8D1c5;
+}
+
 * {
     margin: 0;
 }

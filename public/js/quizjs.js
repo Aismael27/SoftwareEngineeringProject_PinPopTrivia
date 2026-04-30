@@ -46,12 +46,16 @@ function questionEnd() {
     const answer = document.getElementById('answer').textContent;
     if (answer == 'A') {
         document.getElementById('A').style.backgroundColor = "#70683b";
+        document.getElementById('A').style.color = "white";
     } else if (answer == 'B') {
         document.getElementById('B').style.backgroundColor = "#70683b";
+        document.getElementById('A').style.color = "white";
     } else if (answer == 'C') {
         document.getElementById('C').style.backgroundColor = "#70683b";
+        document.getElementById('A').style.color = "white";
     } else if (answer == 'D') {
         document.getElementById('D').style.backgroundColor = "#70683b";
+        document.getElementById('A').style.color = "white";
     }
     document.getElementById('nextButton').style.display = "flex";
 }
