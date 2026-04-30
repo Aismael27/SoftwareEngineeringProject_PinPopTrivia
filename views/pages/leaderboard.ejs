@@ -40,6 +40,7 @@
                             <th>Rank</th>
                             <th>Username</th>
                             <th>Score</th>
+                            <th>Streak</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -48,6 +49,7 @@
                             <td><%= index + 1 %></td>
                             <td><%= u.username %></td>
                             <td><%= u.freeplay_score %></td>
+                            <td><%= u.freeplay_streak %></td>
                         </tr>
                         <% }) %>
                     </tbody>

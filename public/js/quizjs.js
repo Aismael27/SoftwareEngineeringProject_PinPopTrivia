@@ -64,6 +64,7 @@ function clicked(element, char) {
         element.style.color = "white";
     } else {
         element.style.backgroundColor = "#70683b";
+        element.style.color = "white";
         totalScore = totalScore + questScore;
         questRight = true;
     }

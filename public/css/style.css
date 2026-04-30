@@ -331,3 +331,37 @@ select {
     font-family: Arial;
     display: none;
 }
+.score-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.4);
+    z-index: 999;
+}
+.score-overlay.show { display: block; }
+.score-popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #fff;
+    border: 3px solid #333;
+    border-radius: 12px;
+    padding: 30px 40px;
+    text-align: center;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    z-index: 1000;
+    font-family: 'Special Elite', cursive;
+    min-width: 260px;
+}
+
+.score-popup.show {
+    display: block;
+    animation: popIn 0.3s ease;
+}
+
+@keyframes popIn {
+    from { transform: translate(-50%, -50%) scale(0.7); opacity: 0; }
+    to   { transform: translate(-50%, -50%) scale(1);   opacity: 1; }
+}

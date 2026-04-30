@@ -1,4 +1,3 @@
-DROP DATABASE pinpop;
 CREATE DATABASE pinpop;
 USE pinpop;
 
@@ -19,6 +18,7 @@ CREATE TABLE IF NOT EXISTS player (
     date_join		DATE NOT NULL DEFAULT (CURRENT_DATE),
     bite_highscore	INT NOT NULL DEFAULT 0,
     freeplay_score	INT NOT NULL DEFAULT 0,
+    freeplay_streak	INT NOT NULL DEFAULT 0,
     is_deleted		BOOLEAN NOT NULL DEFAULT FALSE,
     PRIMARY KEY (player_id)
 );
@@ -67,29 +67,6 @@ CREATE TABLE IF NOT EXISTS quiz (
     score		INT NOT NULL DEFAULT 0,
     date		DATE NOT NULL DEFAULT (CURRENT_DATE),
     PRIMARY KEY (quiz_id),
-    FOREIGN KEY (player_id) REFERENCES player(player_id) ON DELETE CASCADE
-);
-
-CREATE TABLE IF NOT EXISTS quiz_questions (
-	quiz_q_id	INT NOT NULL AUTO_INCREMENT,
-    quiz_id		INT NOT NULL,
-    q_id		INT NOT NULL,
-    player_ans	ENUM('A','B','C','D'),
-    time_taken	DECIMAL(5,2),
-    points_obt	INT NOT NULL DEFAULT 0,
-    PRIMARY KEY (quiz_q_id),
-    FOREIGN KEY (quiz_id) REFERENCES quiz(quiz_id) ON DELETE CASCADE,
-    FOREIGN KEY (q_id) REFERENCES questions(q_id) ON DELETE RESTRICT    
-);
-    
-CREATE TABLE IF NOT EXISTS leaderboard (
-    leaderboard_id	INT NOT NULL AUTO_INCREMENT,
-    player_id		INT NOT NULL,
-    board_type		ENUM('short','freeplay') NOT NULL,
-    score 			INT NOT NULL DEFAULT 0,
-    date			DATE NOT NULL DEFAULT (CURRENT_DATE),
-    week_start		DATE,
-    PRIMARY KEY (leaderboard_id),
     FOREIGN KEY (player_id) REFERENCES player(player_id) ON DELETE CASCADE
 );
 
@@ -224,4 +201,8 @@ INSERT INTO questions (question, media_id, location_id, answer, option_a, option
 ('Which painting-turned-film was filmed in Amsterdam and depicts the story behind one of history\'s most famous portraits?',
  8, 2, 'B', 'The Da Vinci Code', 'Girl with a Pearl Earring', 'Frida', 'Midnight in Paris', 1000, 'Admin');
  
- INSERT INTO player (username, email, password, date_join) VALUES ('Avery L','a@trinity.edu','al','2026-04-13');
+ INSERT INTO player (username, email, password, date_join) VALUES 
+	('Avery L','a@trinity.edu','al','2026-04-13'),
+    ('Dr Myers','dm@trinity.edu','dm','2026-04-29'),
+    ('Dr Tuba','dt@trinity.edu','dt','2026-04-29'),
+    ('Dr Horn','therealdrhorn@trinity.edu','dh','2026-04-29');

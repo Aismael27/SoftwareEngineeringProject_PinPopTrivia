@@ -44,7 +44,7 @@ app.get('/leaderboard', (req, res) => {
         (err, biteUsers) => {
             if (err) return res.status(500).send('Database error');
             connection.query(
-                'SELECT username, freeplay_score FROM player WHERE is_deleted = FALSE ORDER BY freeplay_score DESC LIMIT 25',
+                'SELECT username, freeplay_score, freeplay_streak FROM player WHERE is_deleted = FALSE ORDER BY freeplay_score DESC LIMIT 25',
                 (err, freeplayUsers) => {
                     if (err) return res.status(500).send('Database error');
                     res.render('pages/leaderboard', { biteUsers, freeplayUsers });
@@ -86,7 +86,7 @@ app.get('/profile', (req, res) => {
     if (role === 'guest') return res.redirect('/login');
     const email = req.session.user.email;
     connection.query(
-        'SELECT username, email, bite_highscore, freeplay_score FROM player WHERE email = ?',
+        'SELECT username, email, bite_highscore, freeplay_score, freeplay_streak FROM player WHERE email = ?',
         [email],
         (err, results) => {
             if (err) return res.status(500).send('Database error');
@@ -103,6 +103,7 @@ app.post('/profile/deleteAccount', (req, res) => {
         [true, req.session.user.email],
         (err) => {
             if (err) return res.json({ success: false });
+            req.session.destroy();
             res.json({ success: true });
         }
     );
