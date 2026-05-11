@@ -49,13 +49,13 @@ function questionEnd() {
         document.getElementById('A').style.color = "white";
     } else if (answer == 'B') {
         document.getElementById('B').style.backgroundColor = "#70683b";
-        document.getElementById('A').style.color = "white";
+        document.getElementById('B').style.color = "white";
     } else if (answer == 'C') {
         document.getElementById('C').style.backgroundColor = "#70683b";
-        document.getElementById('A').style.color = "white";
+        document.getElementById('C').style.color = "white";
     } else if (answer == 'D') {
         document.getElementById('D').style.backgroundColor = "#70683b";
-        document.getElementById('A').style.color = "white";
+        document.getElementById('D').style.color = "white";
     }
     document.getElementById('nextButton').style.display = "flex";
 }
