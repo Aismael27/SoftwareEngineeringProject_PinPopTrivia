@@ -325,14 +325,21 @@ app.post('/suggest', (req, res) => {
 
 app.get('/admin/questionManagement', (req, res) => {
     if (!req.session.user || req.session.user.role !== 'admin') return res.redirect('/');
+
     connection.query('SELECT * FROM questions ORDER BY date_added DESC', (err, questions) => {
-        if (err) {
-            console.log(err);
-            return res.status(500).send('Database error');
-        }
-        res.render('pages/admin/questionManagement', { questions });
-    }); 
+        if (err) return res.status(500).send('Database error');
+
+        connection.query('SELECT location_id, city_name, region FROM location', (err, locations) => {
+            if (err) return res.status(500).send('Database error');
+
+            res.render('pages/admin/questionManagement', { 
+                questions, 
+                locations 
+            });
+        });
+    });
 });
+
 
 app.get('/admin/userManagement', (req, res) => {
     if (!req.session.user || req.session.user.role !== 'admin') return res.redirect('/');
@@ -344,6 +351,24 @@ app.get('/admin/userManagement', (req, res) => {
         res.render('pages/admin/userManagement', { users });
     });
 });
+
+app.post('/admin/questions/add', (req, res) => {
+    const { question, option_a, option_b, option_c, option_d, answer, location_id } = req.body;
+    const author = 'Admin';
+
+    const sql = `INSERT INTO questions (question, option_a, option_b, option_c, option_d, answer, location_id, media_id, author) 
+                 VALUES (?, ?, ?, ?, ?, ?, ?, NULL, ?)`;
+    
+    connection.query(sql, [question, option_a, option_b, option_c, option_d, answer, location_id, author], (err) => {
+        if (err) {
+            console.error(err);
+            return res.status(500).send("Database Error");
+        }
+        res.redirect('/admin/questionManagement');
+    });
+});
+
+
 
 
 app.listen(3000, () => {
