@@ -219,19 +219,25 @@ app.post('/quiz', (req, res) => {
     );
 });
 app.get('/api/question', (req, res) => {
-    let sql = `SELECT * FROM questions ORDER BY RAND() LIMIT 1;`;
+    const exclude = req.query.exclude;
+    let sql = `SELECT * FROM questions`;
+    let params = [];
 
-    connection.query(sql, (err, results) => {
-        if (err) {
-            console.error(err);
-            return res.status(500).json({ success: false });
-        }
+    if (exclude) {
+        sql += ` WHERE q_id NOT IN (?)`;
+        params.push(exclude.split(',').map(Number));
+    }
+    sql += ` ORDER BY RAND() LIMIT 1;`;
+
+    connection.query(sql, params, (err, results) => {
+        if (err) return res.status(500).json({ success: false });
+        if (results.length === 0) return res.json({ success: false, message: 'No more questions' });
 
         const q = results[0];
-
         res.json({
             success: true,
             question: {
+                q_id: q.q_id, // Added this
                 question: q.question,
                 option_a: q.option_a,
                 option_b: q.option_b,
@@ -242,56 +248,51 @@ app.get('/api/question', (req, res) => {
         });
     });
 });
+
 app.get('/api/question/media/:mediatype', (req, res) => {
     const mediatype = req.params.mediatype; 
-    let sql = `SELECT q.* FROM questions q JOIN media m ON q.media_id = m.media_id
-    WHERE m.media_type = ? ORDER BY RAND() LIMIT 1;`;
+    const exclude = req.query.exclude;
+    let sql = `SELECT q.* FROM questions q JOIN media m ON q.media_id = m.media_id WHERE m.media_type = ?`;
+    let params = [mediatype];
 
-    connection.query(sql, [mediatype], (err, results) => {
-        if (err) {
-            console.error(err);
-            return res.status(500).json({ success: false });
-        }
+    if (exclude) {
+        sql += ` AND q.q_id NOT IN (?)`;
+        params.push(exclude.split(',').map(Number));
+    }
+    sql += ` ORDER BY RAND() LIMIT 1;`;
 
-        if (results.length === 0) {
-            return res.status(404).json({ success: false, message: 'No questions found for this media type' });
-        }
+    connection.query(sql, params, (err, results) => {
+        if (err) return res.status(500).json({ success: false });
+        if (results.length === 0) return res.json({ success: false });
 
         const q = results[0];
-
         res.json({
             success: true,
-            question: {
-                question: q.question,
-                option_a: q.option_a,
-                option_b: q.option_b,
-                option_c: q.option_c,
-                option_d: q.option_d,
-                answer: q.answer
-            }
+            question: { q_id: q.q_id, question: q.question, option_a: q.option_a, option_b: q.option_b, option_c: q.option_c, option_d: q.option_d, answer: q.answer }
         });
     });
 });
+
 app.get('/api/question/region/:region', (req, res) => {
     const region = req.params.region;
-    let sql =  `SELECT q.* FROM questions q JOIN location l ON q.location_id = l.location_id
-     WHERE l.region = ? ORDER BY RAND() LIMIT 1`;
+    const exclude = req.query.exclude;
+    let sql = `SELECT q.* FROM questions q JOIN location l ON q.location_id = l.location_id WHERE l.region = ?`;
+    let params = [region];
 
-    connection.query(sql, [region], (err, results) => {
+    if (exclude) {
+        sql += ` AND q.q_id NOT IN (?)`;
+        params.push(exclude.split(',').map(Number));
+    }
+    sql += ` ORDER BY RAND() LIMIT 1`;
+
+    connection.query(sql, params, (err, results) => {
         if (err) return res.status(500).json({ success: false });
-        if (results.length === 0) return res.status(404).json({ success: false, message: 'No questions found for this region' });
+        if (results.length === 0) return res.json({ success: false });
 
         const q = results[0];
         res.json({
             success: true,
-            question: {
-                question: q.question,
-                option_a: q.option_a,
-                option_b: q.option_b,
-                option_c: q.option_c,
-                option_d: q.option_d,
-                answer: q.answer
-            }
+            question: { q_id: q.q_id, question: q.question, option_a: q.option_a, option_b: q.option_b, option_c: q.option_c, option_d: q.option_d, answer: q.answer }
         });
     });
 });
