@@ -15,9 +15,16 @@
     <body>
         <%- include('../partials/header.ejs') %>
         <div class="twoColumns">
+            <div class = "smallCol"> 
+                <p class = "bdyHead"> City Index</p>
+                <ul class = "bdyTxt"> 
+                    <% cities.forEach(city => { %>
+                    <li><a href="/city/<%= city.location_id %>"><%= city.city_name %></a></li>
+                    <% }) %>
+                </ul>
+            </div>
             <div id="map"> 
             </div>
-            <div class = "largeCol" id = "colDisplay"><img src="/css/images/map.jpg"></div>
         </div>
     </body>
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
