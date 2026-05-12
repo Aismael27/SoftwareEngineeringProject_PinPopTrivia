@@ -16,12 +16,13 @@ const cities = [
   { name: "Chicago",        lat: 41.8781,  lng: -87.6298, id: 15  },
 ];
 
+
 var map = L.map("map", {
   center: [20, 0],
   zoom: 2,
   zoomControl: false,
   worldCopyJump: true,
-  bounds: bounds,
+  maxBounds: [[-90, -180], [90, 180]],
   maxBoundsViscosity: 1,
 });
 
