@@ -30,8 +30,10 @@ function loadQuestion() {
             document.getElementById('D').textContent = q.option_d;
             document.getElementById('answer').textContent = q.answer;
 
+            document.getElementById('timer-bar').style.width = '100%';
+            document.getElementById('timer-bar').style.background = '#4caf50';
+            questScore = 3000;
             interval = setInterval(updater, 10);
-            timer = setTimeout(lostTime, 30000);
         })
         .catch(err => {
             document.getElementById('question').textContent = 'Failed to load question: ' + err.message;
@@ -40,6 +42,18 @@ function loadQuestion() {
 
 function updater() {
     questScore = questScore - 1;
+    const pct = (questScore / 3000) * 100;
+    const bar = document.getElementById('timer-bar');
+    if (bar) {
+        bar.style.width = pct + '%';
+        if (pct <= 33) bar.style.background = '#e53935';
+        else if (pct <= 66) bar.style.background = '#fbc02d';
+        else bar.style.background = '#4caf50';
+    }
+    if (questScore <= 0) {
+        clearInterval(interval);
+        lostTime();
+    }
 }
 
 function questionEnd() {
@@ -77,9 +91,20 @@ function clicked(element, char) {
 }
 
 function lostTime() {
+    const bar = document.getElementById('timer-bar');
+    if (bar) bar.style.width = '0%';
     clearInterval(interval);
+    clearTimeout(timer);
+    questRight = false;
+    document.getElementById('A').style.pointerEvents = 'none';
+    document.getElementById('B').style.pointerEvents = 'none';
+    document.getElementById('C').style.pointerEvents = 'none';
+    document.getElementById('D').style.pointerEvents = 'none';
+    const answer = document.getElementById('answer').textContent;
+    document.getElementById(answer).style.backgroundColor = "#70683b";
+    document.getElementById(answer).style.color = "white";
     questCount = questCount + 1;
-    questionEnd();
+    document.getElementById('nextButton').style.display = "flex";
 }
 
 function questionReset() {
@@ -93,11 +118,20 @@ function questionReset() {
     document.getElementById('B').style.color = "";
     document.getElementById('C').style.color = "";
     document.getElementById('D').style.color = "";
+    document.getElementById('A').style.pointerEvents = '';
+    document.getElementById('B').style.pointerEvents = '';
+    document.getElementById('C').style.pointerEvents = '';
+    document.getElementById('D').style.pointerEvents = '';
     document.getElementById('nextButton').style.display = "none";
+    document.getElementById('timer-bar').style.width = '100%';
+    document.getElementById('timer-bar').style.background = '#4caf50';
     loadQuestion();
 }
 
 function quizEnd(mode) {
+    clearInterval(interval);
+    clearTimeout(timer);
+    document.getElementById('timer-container').style.display = 'none';
     document.getElementById('head').style.display = "none";
     document.getElementById('A').style.display = "none";
     document.getElementById('B').style.display = "none";

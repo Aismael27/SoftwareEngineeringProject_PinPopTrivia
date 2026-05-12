@@ -10,6 +10,9 @@
     <body>
         <%- include('../partials/header.ejs') %>
         <br>
+        <div id="timer-container" style="width:80%; margin: 10px auto;">
+    <div id="timer-bar" style="height:18px; width:100%; background:#4caf50; border-radius:8px;"></div>
+</div>
         <% if (mediatype == null && region == null) { %>
             <h1 class="bdyHead" style="font-size: 70px; text-align: center; margin-top: 30px;">Bite-sized Quiz!</h1>
         <% } else if (mediatype == null) { %>
