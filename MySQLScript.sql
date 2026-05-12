@@ -160,14 +160,40 @@ INSERT INTO questions (question, media_id, location_id, answer, option_a, option
  9, 3, 'A', 'Elijah Wood', 'Robert Pattinson', 'Ian McKellan', 'Martin Freeman', 1000, 'Admin');
  
  
- -- SECOND DATA INSERTION
- INSERT INTO media (title, direct_author, media_type) VALUES
-('The Royal Tenenbaums', 'Wes Anderson', 'Movie'), -- 24
-('The Kissing Booth', 'Vince Marcello', 'Movie'),  -- 25
-('Chicago: The Musical', 'Rob Marshall', 'Movie'), -- 26
-('The Mask of Zorro', 'Martin Campbell', 'Movie'), -- 27
-('Iron Man 2', 'Jon Favreau', 'Movie'),            -- 28
-('Blue Eye Samurai', 'Michael Green', 'TV Show');  -- 29
+-- SECOND DATA INSERTION
+INSERT INTO media (title, direct_author, media_type) VALUES
+('The Royal Tenenbaums', 'Wes Anderson', 'Movie'),
+('The Kissing Booth', 'Vince Marcello', 'Movie'),
+('Chicago: The Musical', 'Rob Marshall', 'Movie'),
+('The Mask of Zorro', 'Martin Campbell', 'Movie'),
+('Iron Man 2', 'Jon Favreau', 'Movie'),
+('Blue Eye Samurai', 'Michael Green', 'TV Show'),
+('Tokyo Ghoul', 'Sui Ishida', 'Book'),
+('The Alchemist', 'Paulo Coelho', 'Book'),
+('Like Water for Chocolate', 'Laura Esquivel', 'Book'),
+('Narcos Mexico', 'Chris Brancato', 'TV Show'),
+('Midnight in Paris', 'Woody Allen', 'Movie'),
+('The Hunchback of Notre-Dame', 'Victor Hugo', 'Book'),
+('Sherlock Holmes', 'Arthur Conan Doyle', 'Book'),
+('The Hobbit', 'Peter Jackson', 'Movie'),
+('The Luminaries', 'Eleanor Catton', 'Book'),
+('Crash Landing on You', 'Park Joo-yeon', 'TV Show'),
+('Please Look After Mom', 'Kyung-Sook Shin', 'Book'),
+('Casino Royale', 'Martin Campbell', 'Movie'),
+('Born a Crime', 'Trevor Noah', 'Book'),
+('District 9', 'Neill Blomkamp', 'Movie'),
+('Disgrace', 'J.M. Coetzee', 'Book'),
+('Blood Diamond', 'Edward Zwick', 'Movie'),
+('Arrested Development', 'Mitchell Hurwitz', 'TV Show'),
+('The Devil in the White City', 'Erik Larson', 'Book'),
+('ER', 'Michael Crichton', 'TV Show'),
+('Breakfast at Tiffanys', 'Blake Edwards', 'Movie'),
+('The Great Gatsby', 'F. Scott Fitzgerald', 'Book'),
+('Seinfeld', 'Larry David', 'TV Show'),
+('Anne Frank Remembered', 'Jon Blair', 'Movie'),
+('Spirited Away', 'Hayao Miyazaki', 'Movie'),
+('City of God', 'Fernando Meirelles', 'Movie'),
+('Grace of Monaco', 'Olivier Dahan', 'Movie');
 
 INSERT INTO questions (question, media_id, location_id, answer, option_a, option_b, option_c, option_d, points, author) VALUES
 -- Question 6: The Royal Tenenbaums – New York (media_id=24, location_id=1)
@@ -192,17 +218,51 @@ INSERT INTO questions (question, media_id, location_id, answer, option_a, option
 ('Where was the scene of Iron Man 2 filmed when Elon Musk apears?',
  28, 11, 'B', 'New York', 'Monaco', 'Los Angeles', 'Cape Town', 1000, 'Admin'),
 -- Question 13: Emily in Paris – Paris (media_id=17, location_id=9)
-('Despite being known as “Emily in Paris”, the protagonist doesn’t learn French until what season?',
+('Despite being known as "Emily in Paris", the protagonist doesn''t learn French until what season?',
  17, 9, 'C', 'Season 2', 'Season 3', 'Season 4', 'Season 5', 1000, 'Admin'),
  -- Question 14: Twilight – Rio de Janeiro (media_id=13, location_id=7)
 ('Which Twilight movie was partially filmed in Rio de Janeiro, Brazil?',
  13, 7, 'C', 'Twilight (2008)', 'New Moon (2009)', 'Breaking Dawn Part 1 (2011)', 'Breaking Dawn Part 2 (2012)', 1000, 'Admin'),
 -- Question 15: Girl with a Pearl Earring – Amsterdam (media_id=8, location_id=2)
 ('Which painting-turned-film was filmed in Amsterdam and depicts the story behind one of history\'s most famous portraits?',
- 8, 2, 'B', 'The Da Vinci Code', 'Girl with a Pearl Earring', 'Frida', 'Midnight in Paris', 1000, 'Admin');
- 
+ 8, 2, 'B', 'The Da Vinci Code', 'Girl with a Pearl Earring', 'Frida', 'Midnight in Paris', 1000, 'Admin'),
+('In "Spirited Away," what is the name of the bathhouse where Chihiro works?', (SELECT media_id FROM media WHERE title = 'Spirited Away'), 5, 'C', 'The Golden Palace', 'The Spirit Inn', 'Yubaba''s Bathhouse', 'The Dragon Spa', 1000, 'Admin'),
+('In which city does the manga "Tokyo Ghoul" primarily take place?', (SELECT media_id FROM media WHERE title = 'Tokyo Ghoul'), 5, 'A', 'Tokyo', 'Osaka', 'Kyoto', 'Hiroshima', 1000, 'Admin'),
+('In "Persepolis," what major historical event causes Marjane''s family to send her abroad?', (SELECT media_id FROM media WHERE title = 'Persepolis'), 6, 'B', 'World War II', 'The Iranian Revolution', 'The Iran-Iraq War ceasefire', 'The fall of the Shah', 1000, 'Admin'),
+('In "City of God," which Brazilian city''s favelas serve as the backdrop for the story?', (SELECT media_id FROM media WHERE title = 'City of God'), 7, 'B', 'São Paulo', 'Rio de Janeiro', 'Salvador', 'Brasília', 1000, 'Admin'),
+('The novel "The Alchemist" by Paulo Coelho begins in which country, where the author was born?', (SELECT media_id FROM media WHERE title = 'The Alchemist'), 7, 'D', 'Portugal', 'Argentina', 'Spain', 'Brazil', 1000, 'Admin'),
+('In Alfonso Cuarón''s film "Roma," in which city do the events take place?', (SELECT media_id FROM media WHERE title = 'Roma'), 8, 'A', 'Mexico City', 'Guadalajara', 'Monterrey', 'Oaxaca', 1000, 'Admin'),
+('The novel "Like Water for Chocolate" is set on a ranch near which Mexican border town?', (SELECT media_id FROM media WHERE title = 'Like Water for Chocolate'), 8, 'C', 'Tijuana', 'Juárez', 'Piedras Negras', 'Nogales', 1000, 'Admin'),
+('Which TV show follows the rise of the Guadalajara Cartel and is largely set in Mexico City?', (SELECT media_id FROM media WHERE title = 'Narcos Mexico'), 8, 'B', 'Breaking Bad', 'Narcos: Mexico', 'Ozark', 'The Wire', 1000, 'Admin'),
+('In "Emily in Paris," what is Emily''s job that brings her to Paris?', (SELECT media_id FROM media WHERE title = 'Emily in Paris'), 9, 'A', 'Marketing executive', 'Fashion designer', 'Chef', 'Journalist', 1000, 'Admin'),
+('Victor Hugo''s "The Hunchback of Notre-Dame" is set around which famous Paris landmark?', (SELECT media_id FROM media WHERE title = 'The Hunchback of Notre-Dame'), 9, 'C', 'The Eiffel Tower', 'The Louvre', 'Notre-Dame Cathedral', 'The Arc de Triomphe', 1000, 'Admin'),
+('In Woody Allen''s "Midnight in Paris," the main character magically travels back to which decade?', (SELECT media_id FROM media WHERE title = 'Midnight in Paris'), 9, 'B', 'The 1910s', 'The 1920s', 'The 1930s', 'The 1940s', 1000, 'Admin'),
+('In "Parasite," the Kim family lives in what type of dwelling at the start of the film?', (SELECT media_id FROM media WHERE title = 'Parasite'), 10, 'D', 'A luxury apartment', 'A countryside farmhouse', 'A high-rise condo', 'A semi-basement apartment', 1000, 'Admin'),
+('In "Crash Landing on You," a South Korean heiress accidentally lands in which country?', (SELECT media_id FROM media WHERE title = 'Crash Landing on You'), 10, 'A', 'North Korea', 'China', 'Japan', 'Russia', 1000, 'Admin'),
+('The novel "Please Look After Mom" is set primarily in which South Korean city?', (SELECT media_id FROM media WHERE title = 'Please Look After Mom'), 10, 'C', 'Busan', 'Incheon', 'Seoul', 'Daegu', 1000, 'Admin'),
+('In "Casino Royale," which glamorous city-state hosts the high-stakes poker game?', (SELECT media_id FROM media WHERE title = 'Casino Royale'), 11, 'D', 'Venice', 'Paris', 'London', 'Montenegro', 1000, 'Admin'),
+('In "District 9," where are the alien refugees forced to live in Johannesburg?', (SELECT media_id FROM media WHERE title = 'District 9'), 12, 'A', 'A shantytown called District 9', 'A space station', 'An underground bunker', 'A government facility', 1000, 'Admin'),
+('Trevor Noah''s memoir "Born a Crime" describes growing up during which era in Johannesburg?', (SELECT media_id FROM media WHERE title = 'Born a Crime'), 12, 'C', 'Post-independence era', 'The Boer War era', 'The Apartheid era', 'The Zulu Kingdom era', 1000, 'Admin'),
+('J.M. Coetzee''s novel "Disgrace" is set partly in which South African city?', (SELECT media_id FROM media WHERE title = 'Disgrace'), 13, 'A', 'Cape Town', 'Durban', 'Port Elizabeth', 'Bloemfontein', 1000, 'Admin'),
+('In "La La Land," which famous Los Angeles landmark features in a key scene?', (SELECT media_id FROM media WHERE title = 'La La Land'), 14, 'B', 'Hollywood Sign', 'Griffith Observatory', 'Santa Monica Pier', 'The Getty Center', 1000, 'Admin'),
+('Which TV show set in Los Angeles follows a dysfunctional family running a banana stand company?', (SELECT media_id FROM media WHERE title = 'Arrested Development'), 14, 'A', 'Arrested Development', 'Entourage', 'Curb Your Enthusiasm', 'The O.C.', 1000, 'Admin'),
+('In "The Bear," what type of restaurant does the main character take over in Chicago?', (SELECT media_id FROM media WHERE title = 'The Bear'), 15, 'C', 'A fine dining French restaurant', 'A pizza parlor', 'An Italian beef sandwich shop', 'A sushi bar', 1000, 'Admin'),
+('Erik Larson''s "The Devil in the White City" is set during which Chicago world event?', (SELECT media_id FROM media WHERE title = 'The Devil in the White City'), 15, 'B', 'The 1933 World''s Fair', 'The 1893 World''s Columbian Exposition', 'The 1968 Democratic Convention', 'The 1919 Black Sox Scandal', 1000, 'Admin'),
+('The long-running medical TV drama "ER" is set in a hospital in which city?', (SELECT media_id FROM media WHERE title = 'ER'), 15, 'A', 'Chicago', 'New York', 'Los Angeles', 'Boston', 1000, 'Admin'),
+('In "Breakfast at Tiffany''s," which famous New York jewelry store does Holly Golightly visit?', (SELECT media_id FROM media WHERE title = 'Breakfast at Tiffanys'), 1, 'C', 'Cartier', 'Harry Winston', 'Tiffany & Co.', 'Van Cleef & Arpels', 1000, 'Admin'),
+('In "The Great Gatsby," the lavish parties take place in which fictional area near New York City?', (SELECT media_id FROM media WHERE title = 'The Great Gatsby'), 1, 'B', 'Manhattan', 'West Egg Long Island', 'The Hamptons', 'Brooklyn Heights', 1000, 'Admin'),
+('In "Seinfeld," what is the name of the coffee shop where the characters frequently meet?', (SELECT media_id FROM media WHERE title = 'Seinfeld'), 1, 'D', 'Central Perk', 'The Peach Pit', 'Pop''s Diner', 'Monk''s Cafe', 1000, 'Admin'),
+('Anne Frank and her family hid in a secret annex in which city during World War II?', (SELECT media_id FROM media WHERE title = 'The Diary of Anne Frank'), 2, 'A', 'Amsterdam', 'Rotterdam', 'Utrecht', 'The Hague', 1000, 'Admin'),
+('In "The Fault in Our Stars," Hazel and Augustus travel to Amsterdam to meet which reclusive author?', (SELECT media_id FROM media WHERE title = 'The Fault in our Stars'), 2, 'C', 'John Green', 'Augustus''s editor', 'Peter Van Houten', 'Augustus''s father', 1000, 'Admin'),
+('The "Lord of the Rings" film trilogy was primarily filmed in which country?', (SELECT media_id FROM media WHERE title = 'Lord of the Rings'), 3, 'D', 'Australia', 'Canada', 'Iceland', 'New Zealand', 1000, 'Admin'),
+('Peter Jackson''s film studio Weta Workshop is based in which city?', (SELECT media_id FROM media WHERE title = 'The Hobbit'), 3, 'C', 'Auckland', 'Christchurch', 'Wellington', 'Queenstown', 1000, 'Admin'),
+('In "Bridgerton," the story is set in which city during the Regency era?', (SELECT media_id FROM media WHERE title = 'Bridgerton'), 4, 'B', 'Edinburgh', 'London', 'Bath', 'Oxford', 1000, 'Admin'),
+('Sherlock Holmes'' famous fictional address is located on which London street?', (SELECT media_id FROM media WHERE title = 'Sherlock Holmes'), 4, 'A', '221B Baker Street', '10 Downing Street', '4 Privet Drive', '1 Scotland Yard', 1000, 'Admin'),
+('In "Fleabag," the main character runs a small business in which city?', (SELECT media_id FROM media WHERE title = 'Fleabag'), 4, 'D', 'Edinburgh', 'Manchester', 'Bristol', 'London', 1000, 'Admin');
+
  INSERT INTO player (username, email, password, date_join) VALUES 
 	('Avery L','a@trinity.edu','al','2026-04-13'),
     ('Dr Myers','dm@trinity.edu','dm','2026-04-29'),
     ('Dr Tuba','dt@trinity.edu','dt','2026-04-29'),
     ('Dr Horn','therealdrhorn@trinity.edu','dh','2026-04-29');
+
